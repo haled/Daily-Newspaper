@@ -8,3 +8,14 @@ pub struct Article {
     pub pub_date: String,
     pub source: String,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct FeedSource {
+    pub name: String,
+    pub url: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct AppConfig {
+    pub feeds: Vec<FeedSource>,
+}
