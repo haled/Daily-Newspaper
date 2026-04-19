@@ -1,24 +1,24 @@
-# Daily Newspaper RSS Aggregator (Rust)
+# The Daily Paper (RSS Aggregator)
 
-A Rust-based application that aggregates news from multiple RSS feeds and generates a single, aesthetically pleasing HTML "newspaper" page, optimized for a 9-inch tablet. 
+A Rust-based application that aggregates news from multiple RSS feeds and generates a single, aesthetically pleasing HTML "newspaper" page, optimized for tablets and desktops.
 
 I miss my daily newspaper too! This project recreates that experience by fetching headlines and snippets from your favorite sources and presenting them in a classic multi-column layout with traditional serif typography.
 
 ## Features
 
-- **RSS Aggregation:** Concurrently fetches news from multiple sources (BBC, NYT, Ars Technica, The Guardian, and Hacker News).
-- **Newspaper Layout:** Uses CSS Grid and Flexbox to create a traditional multi-column layout.
-- **Classic Typography:** Features 'Playfair Display' for headlines and 'Merriweather' for body text for a print-like feel.
-- **Article Snippets:** Displays a truncated summary for each headline to give you the "lead" of the story.
-- **Tablet Optimized:** Specifically designed for a 9-inch tablet viewport (1024px to 1280px).
-- **Offline Ready:** Generates a single, self-contained `index.html` file that can be saved for offline viewing.
-- **GCP Integrated:** Ready for deployment to Google Cloud Run with automatic uploads to Google Cloud Storage (GCS).
+- **RSS Aggregation:** Concurrently fetches news from major sources (Reuters, CNN, Fox News, BBC, NYT, Hacker News, and more).
+- **Sectioned Layout:** Organizes content into **News**, **Finance**, and **Technology** sections.
+- **Dynamic Headline Clustering:** Automatically identifies "major" stories covered by multiple sources.
+- **Visual Weighting:** Prominent stories are given larger headlines and span 2 columns in the center of the grid for a realistic editorial look.
+- **4-Column Layout:** Uses a modern CSS Grid to create a traditional 4-column newspaper feel.
+- **Dynamic Header:** Automatically calculates Volume and Issue numbers based on the current date.
+- **Classic Typography:** Features 'Playfair Display' for headlines and 'Merriweather' for body text.
+- **Offline Ready:** Generates a single, self-contained `index.html` file.
 
 ## Prerequisites
 
-- **Rust:** You'll need the [Rust toolchain](https://rustup.rs/) installed.
-- **Google Cloud SDK (optional):** Required for deployment to GCP.
-- **A GCS Bucket (optional):** Required if you want to upload the generated newspaper to the cloud.
+- **Rust:** You'll need the [latest Rust toolchain](https://rustup.rs/) installed.
+- **Google Cloud SDK (optional):** For deployment to GCP.
 
 ## Getting Started Locally
 
@@ -32,61 +32,35 @@ I miss my daily newspaper too! This project recreates that experience by fetchin
     ```bash
     cargo run
     ```
-    This will fetch the latest news and generate an `index.html` file in the project root.
+    This will fetch the latest news, cluster similar headlines, and generate an `index.html` file.
 
 3.  **View the newspaper:**
     Open `index.html` in your web browser.
 
-## Deployment to Google Cloud Platform
-
-To have your newspaper ready every morning at 5:30 AM:
-
-### 1. Create a GCS Bucket
-Create a bucket in your GCP project to host the generated newspaper.
-
-### 2. Build and Push the Container
-Use Google Cloud Build to containerize the application:
-```bash
-gcloud builds submit --tag gcr.io/[PROJECT_ID]/daily-newspaper
-```
-
-### 3. Deploy to Cloud Run
-Deploy the image to Cloud Run as a job or service. Ensure you set the `GCS_BUCKET` environment variable:
-```bash
-gcloud run deploy daily-newspaper \
-  --image gcr.io/[PROJECT_ID]/daily-newspaper \
-  --set-env-vars GCS_BUCKET=[YOUR_BUCKET_NAME] \
-  --platform managed \
-  --region [YOUR_REGION] \
-  --no-allow-unauthenticated
-```
-*Note: Ensure the Cloud Run service account has `roles/storage.objectCreator` permissions for your bucket.*
-
-### 4. Schedule the Execution
-Use Cloud Scheduler to trigger your Cloud Run service every day at 5:30 AM:
-- **Frequency:** `30 5 * * *`
-- **Target:** HTTP (pointing to your Cloud Run URL)
-
 ## Configuration
 
-The list of RSS feeds is currently hardcoded in `src/main.rs`. You can easily modify the `feeds` vector to add or remove sources:
+The list of RSS feeds and their sections is managed in `feeds.json`:
 
-```rust
-let feeds = vec![
-    ("BBC News", "https://feeds.bbci.co.uk/news/rss.xml"),
-    ("My Local News", "https://example.com/rss"),
-    // ...
-];
+```json
+{
+  "feeds": [
+    {
+      "name": "Reuters World",
+      "url": "https://news.google.com/rss/search?q=when:24h+source:Reuters&hl=en-US&gl=US&ceid=US:en",
+      "section": "News"
+    }
+  ]
+}
 ```
 
 ## Built With
 
-- **[Rust](https://www.rust-lang.org/):** The core application logic.
+- **[Rust](https://www.rust-lang.org/):** Core application logic.
 - **[feed-rs](https://github.com/crepererum/feed-rs):** Robust RSS/Atom parsing.
 - **[askama](https://github.com/djc/askama):** Type-safe HTML templating.
 - **[reqwest](https://github.com/seanmonstar/reqwest):** Asynchronous HTTP requests.
-- **[google-cloud-storage](https://github.com/yoshuawuyts/google-cloud-storage-rs):** GCS integration.
-- **[Google Fonts](https://fonts.google.com/):** For traditional newspaper typography.
+- **[chrono](https://github.com/chronotope/chrono):** Date and time handling.
+- **[Google Fonts](https://fonts.google.com/):** For 'Playfair Display' and 'Merriweather'.
 
 ## License
 

@@ -1,15 +1,16 @@
 # GEMINI.md - Daily-Newspaper
 
 ## Project Overview
-**Daily-Newspaper** is a Rust-based RSS aggregator designed to recreate the experience of reading a traditional daily newspaper. It concurrently fetches headlines and snippets from multiple RSS feeds (e.g., BBC, NYT, Hacker News) and renders them into a single, aesthetically pleasing, self-contained HTML file (`index.html`).
+**Daily-Newspaper** is a Rust-based RSS aggregator designed to recreate the experience of reading a traditional daily newspaper. It concurrently fetches headlines and snippets from multiple RSS feeds (e.g., BBC, NYT, Reuters) and renders them into a single, aesthetically pleasing, self-contained HTML file (`index.html`).
 
 ### Key Features
 - **RSS Aggregation:** Concurrently fetches news from multiple sources.
 - **Sectioned Layout:** Organizes news into distinct sections (News, Finance, Technology).
-- **Traditional Layout:** Uses CSS Grid and Flexbox for a multi-column, classic newspaper feel.
-- **Typography:** Features 'Playfair Display' for headlines and 'Merriweather' for body text via Google Fonts.
+- **Dynamic Headline Clustering:** Groups similar headlines from different sources to identify "major" stories.
+- **Visual Weighting:** Prominent stories (covered by multiple sources) are given larger fonts and span 2 columns in the center of the layout.
+- **Traditional Layout:** Uses a 4-column CSS Grid for a classic newspaper feel.
+- **Dynamic Header:** Automatically calculates Volume (last 2 digits of year) and Issue Number (day of year).
 - **Tablet Optimized:** Specifically designed for 9-inch tablet viewports (1024px to 1280px).
-- **GCP Ready:** Integrated with Google Cloud Storage (GCS) and suitable for deployment on Cloud Run with Cloud Scheduler.
 
 ### Core Technologies
 - **Language:** Rust (Edition 2024)
@@ -17,52 +18,17 @@
 - **HTTP Client:** `reqwest`
 - **RSS Parser:** `feed-rs`
 - **Templating:** `askama` (Type-safe HTML templates)
-- **Cloud:** `google-cloud-storage` (GCS integration)
 
 ---
 
 ## Building and Running
-
-### Prerequisites
-- [Rust Toolchain](https://rustup.rs/) (latest stable version)
-- (Optional) [Google Cloud SDK](https://cloud.google.com/sdk) for deployment.
 
 ### Key Commands
 - **Local Development:**
   ```bash
   cargo run
   ```
-  This command fetches the feeds, generates `index.html` in the root directory, and prints progress to the terminal.
-- **Production Build:**
-  ```bash
-  cargo build --release
-  ```
-- **Docker Build:**
-  ```bash
-  docker build -t daily-newspaper .
-  ```
-- **Linting & Formatting:**
-  ```bash
-  cargo fmt
-  cargo clippy
-  ```
-
-### Configuration
-The list of RSS feeds is managed in `feeds.json`. Each feed is assigned to a section (News, Finance, or Technology):
-```json
-{
-  "feeds": [
-    {
-      "name": "BBC News",
-      "url": "https://feeds.bbci.co.uk/news/rss.xml",
-      "section": "News"
-    }
-  ]
-}
-```
-
-### Environment Variables
-- `GCS_BUCKET`: If set, the application will automatically upload the generated `index.html` to the specified Google Cloud Storage bucket.
+  This command fetches the feeds, clusters headlines, generates `index.html`, and prints progress.
 
 ---
 
@@ -70,28 +36,16 @@ The list of RSS feeds is managed in `feeds.json`. Each feed is assigned to a sec
 
 ### Directory Structure
 - `src/`: Rust source files.
-  - `main.rs`: Application entry point, orchestrates fetching, section grouping, and rendering.
-  - `models.rs`: Defines core data structures like `Article` and `FeedSource`.
-  - `scraper.rs`: Handles HTTP requests and RSS/Atom parsing logic.
-  - `template_context.rs`: Defines the `askama` template and `Section` structures.
+  - `main.rs`: Orchestrates fetching, headline clustering (similarity logic), and interleaving layout logic.
+  - `models.rs`: Defines `Article` with `weight` and `span` fields.
+  - `scraper.rs`: Normalizes disparate feed formats.
+  - `template_context.rs`: Defines the `NewspaperTemplate` and `Section` structures.
 - `templates/`: HTML templates for rendering.
-  - `newspaper.html`: The core newspaper layout with section-aware rendering and embedded CSS.
-- `feeds.json`: Configuration file defining sources and their categories.
-- `index.html`: The generated output file (generated at runtime).
-- `Dockerfile`: Configuration for containerized deployment.
+  - `newspaper.html`: 4-column responsive grid with dynamic font-sizing based on article weight.
+- `feeds.json`: Configuration for RSS sources categorized by section.
 
 ### Development Guidelines
-- **Surgical Logic:** Keep the `scraper` focused on normalizing disparate feed formats into the common `Article` model.
-- **Section Ordering:** The display order of sections is explicitly defined in `src/main.rs`.
-- **Template Safety:** Use `askama` to ensure type-safe data binding between Rust and HTML.
-- **Performance:** Feed fetching is asynchronous and concurrent.
-- **Styling:** CSS is embedded directly within `templates/newspaper.html` to ensure the generated file is self-contained and portable.
-- **Content:** The app currently takes the top 5 articles from each source to maintain a balanced layout. Snippets are truncated to approximately 300 characters.
-
----
-
-## Deployment to GCP
-1. **Containerize:** Build and push the image to Google Container Registry (GCR).
-2. **Deploy:** Use Google Cloud Run to host the service.
-3. **Schedule:** Use Cloud Scheduler with a cron expression (e.g., `30 5 * * *`) to trigger the generation every morning.
-4. **Access:** Link the GCS bucket to a domain or use signed URLs for your tablet's browser.
+- **Headline Similarity:** Uses a word-overlap algorithm (40% match of words > 3 chars) to cluster stories.
+- **Interleaving Logic:** To ensure a balanced look, the app interleaves "Minor" and "Major" articles to keep 2-column spans centered in the 4-column grid.
+- **Surgical Logic:** Keep the `scraper` focused on normalization; keep `main.rs` focused on editorial logic (clustering/weighting).
+- **Styling:** CSS is embedded directly within `templates/newspaper.html`.
