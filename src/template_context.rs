@@ -11,4 +11,6 @@ pub struct Section {
 pub struct NewspaperTemplate {
     pub sections: Vec<Section>,
     pub date: String,
+    pub volume: String,
+    pub issue_number: u32,
 }

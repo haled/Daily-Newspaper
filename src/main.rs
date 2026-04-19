@@ -56,8 +56,20 @@ async fn main() -> Result<(), Box<dyn Error>> {
         sections.push(Section { name, articles });
     }
 
-    let date = Local::now().format("%A, %B %e, %Y").to_string();
-    let template = NewspaperTemplate { sections, date };
+    let now = Local::now();
+    let date = now.format("%A, %B %e, %Y").to_string();
+    
+    // Volume: last 2 digits of year, Number: day of year
+    use chrono::Datelike;
+    let volume = format!("{:02}", now.year() % 100);
+    let issue_number = now.ordinal();
+
+    let template = NewspaperTemplate { 
+        sections, 
+        date,
+        volume,
+        issue_number,
+    };
 
     let html = template.render()?;
     fs::write("index.html", &html)?;
