@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Newspaper - {{ date }}</title>
+    <title>The Daily Paper - {{ date }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         body {
@@ -16,7 +16,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             border: 1px solid #ccc;
             padding: 40px;
@@ -33,7 +33,7 @@
 
         header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 4rem;
+            font-size: 5rem;
             margin: 0;
             letter-spacing: -2px;
             text-transform: uppercase;
@@ -47,13 +47,6 @@
             border-top: 1px solid #333;
             padding-top: 5px;
             margin-top: 10px;
-        }
-
-        .newspaper-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-bottom: 40px;
         }
 
         .section-header {
@@ -70,6 +63,13 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             text-align: center;
+        }
+
+        .newspaper-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
         }
 
         @media (max-width: 1024px) {
@@ -89,12 +89,21 @@
             text-align: justify;
         }
 
+        article.span-2 { grid-column: span 2; }
+        article.span-3 { grid-column: span 3; }
+        article.span-4 { grid-column: span 4; }
+
         article h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin: 0 0 10px 0;
-            line-height: 1.2;
+            line-height: 1.1;
         }
+
+        article.weight-2 h2 { font-size: 1.8rem; }
+        article.weight-3 h2 { font-size: 2.2rem; }
+        article.weight-4 h2 { font-size: 2.8rem; }
+        article.weight-5 h2 { font-size: 3.2rem; }
 
         article .source {
             font-size: 0.8rem;
@@ -145,7 +154,7 @@
         </div>
         <div class="newspaper-grid">
             {% for article in section.articles %}
-            <article>
+            <article class="span-{{ article.span }} weight-{{ article.weight }}">
                 <div class="source">{{ article.source }}</div>
                 <h2><a href="{{ article.link }}">{{ article.title }}</a></h2>
                 <div class="snippet">{{ article.snippet }}</div>

@@ -7,6 +7,14 @@ pub struct Article {
     pub snippet: String,
     pub pub_date: String,
     pub source: String,
+    #[serde(default)]
+    pub weight: u32,
+    #[serde(default = "default_span")]
+    pub span: u32,
+}
+
+fn default_span() -> u32 {
+    1
 }
 
 #[derive(Debug, Deserialize)]

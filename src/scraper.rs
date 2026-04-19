@@ -39,6 +39,8 @@ pub async fn fetch_feed(client: &Client, url: &str, source_name: &str) -> Result
             snippet,
             pub_date,
             source: source_name.to_string(),
+            weight: 1,
+            span: 1,
         }
     }).collect();
 

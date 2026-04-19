@@ -1,6 +1,26 @@
 {
   "feeds": [
     {
+      "name": "Reuters World",
+      "url": "https://news.google.com/rss/search?q=when:24h+source:Reuters&hl=en-US&gl=US&ceid=US:en",
+      "section": "News"
+    },
+    {
+      "name": "CNN Top Stories",
+      "url": "http://rss.cnn.com/rss/cnn_topstories.rss",
+      "section": "News"
+    },
+    {
+      "name": "Fox News",
+      "url": "http://feeds.foxnews.com/foxnews/latest",
+      "section": "News"
+    },
+    {
+      "name": "AP News",
+      "url": "https://news.google.com/rss/search?q=when:24h+source:Associated+Press&hl=en-US&gl=US&ceid=US:en",
+      "section": "News"
+    },
+    {
       "name": "BBC News",
       "url": "https://feeds.bbci.co.uk/news/rss.xml",
       "section": "News"
@@ -21,8 +41,8 @@
       "section": "Finance"
     },
     {
-      "name": "PaymentSource",
-      "url": "https://www.paymentsjournal.com/feed/",
+      "name": "Wall Street Journal",
+      "url": "https://news.google.com/rss/search?q=when:24h+source:The+Wall+Street+Journal&hl=en-US&gl=US&ceid=US:en",
       "section": "Finance"
     },
     {
@@ -46,8 +66,8 @@
       "section": "Technology"
     },
     {
-      "name": "Southgate Amateur Radio",
-      "url": "https://www.southgatearc.org/index.xml",
+      "name": "The Verge",
+      "url": "https://www.theverge.com/rss/index.xml",
       "section": "Technology"
     }
   ]
