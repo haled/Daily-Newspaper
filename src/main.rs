@@ -4,13 +4,11 @@ mod template_context;
 
 use reqwest::Client;
 use std::fs;
+use std::collections::BTreeMap;
 use std::error::Error;
 use chrono::Local;
 use askama::Template;
-use crate::template_context::NewspaperTemplate;
-
-use gcloud_storage::client::{Client as GCSClient, ClientConfig};
-use gcloud_storage::http::objects::upload::{Media, UploadObjectRequest, UploadType};
+use crate::template_context::{NewspaperTemplate, Section};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -22,14 +20,17 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let config_data = fs::read_to_string("feeds.json")?;
     let config: models::AppConfig = serde_json::from_str(&config_data)?;
 
-    let mut all_articles = Vec::new();
+    let mut sectioned_articles: BTreeMap<String, Vec<models::Article>> = BTreeMap::new();
 
     for feed in config.feeds {
-        println!("Fetching {}...", feed.name);
+        println!("Fetching {} ({})...", feed.name, feed.section);
         match scraper::fetch_feed(&client, &feed.url, &feed.name).await {
             Ok(articles) => {
                 // Take top 5 from each for variety
-                all_articles.extend(articles.into_iter().take(5));
+                sectioned_articles
+                    .entry(feed.section)
+                    .or_default()
+                    .extend(articles.into_iter().take(5));
             }
             Err(e) => {
                 eprintln!("Error fetching {}: {}", feed.name, e);
@@ -37,35 +38,35 @@ async fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
+    // Convert BTreeMap to a Vec<Section> for the template
+    // We want a specific order: News, Finance, Technology
+    let ordered_sections = vec!["News", "Finance", "Technology"];
+    let mut sections = Vec::new();
+    
+    for section_name in ordered_sections {
+        if let Some(articles) = sectioned_articles.remove(section_name) {
+            sections.push(Section {
+                name: section_name.to_string(),
+                articles,
+            });
+        }
+    }
+
+    // Any remaining sections
+    for (name, articles) in sectioned_articles {
+        sections.push(Section { name, articles });
+    }
+
     let date = Local::now().format("%A, %B %e, %Y").to_string();
     
     let template = NewspaperTemplate {
-        articles: all_articles,
+        sections,
         date,
     };
 
     let html = template.render()?;
     fs::write("index.html", &html)?;
     println!("Local file generated: index.html");
-
-    // Optional GCS Upload
-    if let Ok(bucket_name) = std::env::var("GCS_BUCKET") {
-        println!("Uploading to GCS bucket: {}...", bucket_name);
-        let config = ClientConfig::default().with_auth().await?;
-        let gcs_client = GCSClient::new(config);
-        
-        let upload_type = UploadType::Simple(Media {
-            name: "index.html".to_string().into(),
-            content_type: "text/html".to_string().into(),
-            content_length: Some(html.len() as u64),
-        });
-
-        gcs_client.upload_object(&UploadObjectRequest {
-            bucket: bucket_name,
-            ..Default::default()
-        }, html.into_bytes(), &upload_type).await?;
-        println!("Upload successful!");
-    }
 
     Ok(())
 }

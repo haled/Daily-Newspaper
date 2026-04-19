@@ -13,6 +13,7 @@ pub struct Article {
 pub struct FeedSource {
     pub name: String,
     pub url: String,
+    pub section: String,
 }
 
 #[derive(Debug, Deserialize)]

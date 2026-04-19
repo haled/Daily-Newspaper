@@ -5,6 +5,7 @@
 
 ### Key Features
 - **RSS Aggregation:** Concurrently fetches news from multiple sources.
+- **Sectioned Layout:** Organizes news into distinct sections (News, Finance, Technology).
 - **Traditional Layout:** Uses CSS Grid and Flexbox for a multi-column, classic newspaper feel.
 - **Typography:** Features 'Playfair Display' for headlines and 'Merriweather' for body text via Google Fonts.
 - **Tablet Optimized:** Specifically designed for 9-inch tablet viewports (1024px to 1280px).
@@ -47,11 +48,17 @@
   ```
 
 ### Configuration
-The list of RSS feeds is currently hardcoded in `src/main.rs`. To modify sources, update the `feeds` vector:
-```rust
-let feeds = vec![
-    ("Source Name", "https://example.com/rss"),
-];
+The list of RSS feeds is managed in `feeds.json`. Each feed is assigned to a section (News, Finance, or Technology):
+```json
+{
+  "feeds": [
+    {
+      "name": "BBC News",
+      "url": "https://feeds.bbci.co.uk/news/rss.xml",
+      "section": "News"
+    }
+  ]
+}
 ```
 
 ### Environment Variables
@@ -63,17 +70,19 @@ let feeds = vec![
 
 ### Directory Structure
 - `src/`: Rust source files.
-  - `main.rs`: Application entry point, orchestrates fetching and rendering.
-  - `models.rs`: Defines core data structures like `Article`.
+  - `main.rs`: Application entry point, orchestrates fetching, section grouping, and rendering.
+  - `models.rs`: Defines core data structures like `Article` and `FeedSource`.
   - `scraper.rs`: Handles HTTP requests and RSS/Atom parsing logic.
-  - `template_context.rs`: Defines the `askama` template structure.
+  - `template_context.rs`: Defines the `askama` template and `Section` structures.
 - `templates/`: HTML templates for rendering.
-  - `newspaper.html`: The core newspaper layout and embedded CSS.
+  - `newspaper.html`: The core newspaper layout with section-aware rendering and embedded CSS.
+- `feeds.json`: Configuration file defining sources and their categories.
 - `index.html`: The generated output file (generated at runtime).
 - `Dockerfile`: Configuration for containerized deployment.
 
 ### Development Guidelines
 - **Surgical Logic:** Keep the `scraper` focused on normalizing disparate feed formats into the common `Article` model.
+- **Section Ordering:** The display order of sections is explicitly defined in `src/main.rs`.
 - **Template Safety:** Use `askama` to ensure type-safe data binding between Rust and HTML.
 - **Performance:** Feed fetching is asynchronous and concurrent.
 - **Styling:** CSS is embedded directly within `templates/newspaper.html` to ensure the generated file is self-contained and portable.
