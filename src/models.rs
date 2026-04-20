@@ -32,7 +32,17 @@ pub struct WeatherConfig {
 }
 
 #[derive(Debug, Deserialize)]
+pub struct SportsTeamsConfig {
+    pub nfl: Option<String>,
+    pub nba: Option<String>,
+    pub mlb: Option<String>,
+    pub nhl: Option<String>,
+    pub mls: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
 pub struct AppConfig {
     pub weather: WeatherConfig,
+    pub sports_teams: SportsTeamsConfig,
     pub feeds: Vec<FeedSource>,
 }

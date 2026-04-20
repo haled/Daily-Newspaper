@@ -53,6 +53,49 @@ async fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
+    // --- Team-Specific Sports Headlines ---
+    let leagues = vec![
+        ("NFL", config.sports_teams.nfl, "https://www.espn.com/espn/rss/nfl/news"),
+        ("NBA", config.sports_teams.nba, "https://www.espn.com/espn/rss/nba/news"),
+        ("MLB", config.sports_teams.mlb, "https://www.espn.com/espn/rss/mlb/news"),
+        ("NHL", config.sports_teams.nhl, "https://www.espn.com/espn/rss/nhl/news"),
+        ("MLS", config.sports_teams.mls, "https://news.google.com/rss/search?q=when:24h+source:MLSsoccer.com&hl=en-US&gl=US&ceid=US:en"),
+    ];
+
+    for (league_name, team_opt, feed_url) in leagues {
+        if let Some(team) = team_opt {
+            if !team.trim().is_empty() {
+                println!("Searching for {} in {} feed...", team, league_name);
+                match scraper::fetch_feed(&client, feed_url, league_name).await {
+                    Ok(articles) => {
+                        let filtered: Vec<Article> = articles.into_iter()
+                            .filter(|a| {
+                                let team_lower = team.to_lowercase();
+                                a.title.to_lowercase().contains(&team_lower) || 
+                                a.snippet.to_lowercase().contains(&team_lower)
+                            })
+                            .collect();
+                        
+                        if !filtered.is_empty() {
+                            println!("  Found {} matches for {}.", filtered.len(), team);
+                            section_raw_articles
+                                .entry("Sports".to_string())
+                                .or_default()
+                                .extend(filtered);
+                            
+                            // Ensure "Sports" has a sort order if not already defined
+                            section_orders.entry("Sports".to_string()).or_insert(4);
+                        }
+                    }
+                    Err(e) => {
+                        eprintln!("Error fetching {} feed for team {}: {}", league_name, team, e);
+                    }
+                }
+            }
+        }
+    }
+    // --------------------------------------
+
     // Sort sections by their assigned sort_order
     let mut ordered_sections: Vec<String> = section_orders.keys().cloned().collect();
     ordered_sections.sort_by_key(|name| section_orders.get(name).unwrap_or(&u32::MAX));

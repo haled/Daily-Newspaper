@@ -3,6 +3,13 @@
     "location": "63101",
     "units": "F"
   },
+  "sports_teams": {
+    "nfl": "Chiefs",
+    "nba": "",
+    "mlb": "Cardinals",
+    "nhl": "Blues",
+    "mls": "St. Louis CITY SC"
+  },
   "feeds": [
     {
       "name": "Reuters World",
