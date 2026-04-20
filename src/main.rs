@@ -22,15 +22,22 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let config: models::AppConfig = serde_json::from_str(&config_data)?;
 
     let mut section_raw_articles: BTreeMap<String, Vec<Article>> = BTreeMap::new();
+    let mut section_orders: BTreeMap<String, u32> = BTreeMap::new();
 
     for feed in config.feeds {
         println!("Fetching {} ({})...", feed.name, feed.section);
+        
+        // Track the sort order for this section (take the minimum if multiple feeds specify it)
+        section_orders.entry(feed.section.clone())
+            .and_modify(|e| *e = (*e).min(feed.sort_order))
+            .or_insert(feed.sort_order);
+
         match scraper::fetch_feed(&client, &feed.url, &feed.name).await {
             Ok(articles) => {
                 section_raw_articles
                     .entry(feed.section)
                     .or_default()
-                    .extend(articles.into_iter().take(15)); // Take more for variety
+                    .extend(articles.into_iter().take(15));
             }
             Err(e) => {
                 eprintln!("Error fetching {}: {}", feed.name, e);
@@ -38,22 +45,19 @@ async fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
+    // Sort sections by their assigned sort_order
+    let mut ordered_sections: Vec<String> = section_orders.keys().cloned().collect();
+    ordered_sections.sort_by_key(|name| section_orders.get(name).unwrap_or(&u32::MAX));
+
     let mut sections = Vec::new();
-    let ordered_sections = vec!["News", "Finance", "Technology"];
-    
     for section_name in ordered_sections {
-        if let Some(mut articles) = section_raw_articles.remove(section_name) {
+        if let Some(mut articles) = section_raw_articles.remove(&section_name) {
             process_articles(&mut articles);
             sections.push(Section {
-                name: section_name.to_string(),
+                name: section_name,
                 articles,
             });
         }
-    }
-
-    for (name, mut articles) in section_raw_articles {
-        process_articles(&mut articles);
-        sections.push(Section { name, articles });
     }
 
     let now = Local::now();

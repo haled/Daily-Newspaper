@@ -22,6 +22,7 @@ pub struct FeedSource {
     pub name: String,
     pub url: String,
     pub section: String,
+    pub sort_order: u32,
 }
 
 #[derive(Debug, Deserialize)]
