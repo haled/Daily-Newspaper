@@ -1,4 +1,8 @@
 {
+  "weather": {
+    "location": "63101",
+    "units": "F"
+  },
   "feeds": [
     {
       "name": "Reuters World",

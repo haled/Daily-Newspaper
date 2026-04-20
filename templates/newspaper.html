@@ -127,6 +127,57 @@
             text-decoration: underline;
         }
 
+        /* Weather Box Styling */
+        .weather-box {
+            border: 2px solid #333;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            background: #fff;
+            grid-column: span 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: fit-content;
+        }
+        .weather-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .weather-location {
+            font-size: 0.75rem;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        .weather-today {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 5px 0;
+            font-family: 'Playfair Display', serif;
+        }
+        .weather-forecast {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #333;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+        .forecast-day {
+            text-align: center;
+            font-size: 0.75rem;
+        }
+        .forecast-label {
+            font-weight: bold;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+        }
+
         footer {
             margin-top: 50px;
             border-top: 1px solid #ccc;
@@ -153,6 +204,26 @@
             <h2>{{ section.name }}</h2>
         </div>
         <div class="newspaper-grid">
+            {% if section.name == "News - Global" %}
+                {% if let Some(w) = weather %}
+                <div class="weather-box">
+                    <div class="weather-title">Weather Forecast</div>
+                    <div class="weather-location">{{ w.location_name }}</div>
+                    <div class="weather-today">
+                        {{ w.today_high }}° / {{ w.today_low }}°{{ w.units }}
+                    </div>
+                    <div class="weather-forecast">
+                        {% for f in w.forecast %}
+                        <div class="forecast-day">
+                            <span class="forecast-label">{{ f.day }}</span>
+                            {{ f.high }}°/{{ f.low }}°
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+
             {% for article in section.articles %}
             <article class="span-{{ article.span }} weight-{{ article.weight }}">
                 <div class="source">{{ article.source }}</div>

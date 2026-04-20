@@ -21,6 +21,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let config_data = fs::read_to_string("feeds.json")?;
     let config: models::AppConfig = serde_json::from_str(&config_data)?;
 
+    let weather = match scraper::fetch_weather(&client, &config.weather.location, &config.weather.units).await {
+        Ok(w) => Some(w),
+        Err(e) => {
+            eprintln!("Error fetching weather: {}", e);
+            None
+        }
+    };
+
     let mut section_raw_articles: BTreeMap<String, Vec<Article>> = BTreeMap::new();
     let mut section_orders: BTreeMap<String, u32> = BTreeMap::new();
 
@@ -73,6 +81,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         date,
         volume,
         issue_number,
+        weather,
     };
 
     let html = template.render()?;

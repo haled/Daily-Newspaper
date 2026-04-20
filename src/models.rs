@@ -26,6 +26,13 @@ pub struct FeedSource {
 }
 
 #[derive(Debug, Deserialize)]
+pub struct WeatherConfig {
+    pub location: String,
+    pub units: String,
+}
+
+#[derive(Debug, Deserialize)]
 pub struct AppConfig {
+    pub weather: WeatherConfig,
     pub feeds: Vec<FeedSource>,
 }
