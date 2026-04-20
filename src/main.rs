@@ -29,6 +29,35 @@ async fn main() -> Result<(), Box<dyn Error>> {
         }
     };
 
+    // Fetch Sports Scores for yesterday
+    let yesterday = (Local::now() - chrono::Duration::days(1)).format("%Y%m%d").to_string();
+    let mut all_scores = Vec::new();
+    
+    let leagues_to_check = vec![
+        ("nfl", config.sports_teams.nfl.clone()),
+        ("nba", config.sports_teams.nba.clone()),
+        ("mlb", config.sports_teams.mlb.clone()),
+        ("nhl", config.sports_teams.nhl.clone()),
+        ("mls", config.sports_teams.mls.clone()),
+    ];
+
+    for (league, team_opt) in leagues_to_check {
+        if let Some(team) = team_opt {
+            if !team.trim().is_empty() {
+                match scraper::fetch_scores(&client, league, &team, &yesterday).await {
+                    Ok(mut scores) => all_scores.append(&mut scores),
+                    Err(e) => eprintln!("Error fetching scores for {} ({}): {}", team, league, e),
+                }
+            }
+        }
+    }
+
+    let sports_scores = if !all_scores.is_empty() {
+        Some(crate::template_context::SportsScoresData { scores: all_scores })
+    } else {
+        None
+    };
+
     let mut section_raw_articles: BTreeMap<String, Vec<Article>> = BTreeMap::new();
     let mut section_orders: BTreeMap<String, u32> = BTreeMap::new();
 
@@ -125,6 +154,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         volume,
         issue_number,
         weather,
+        sports_scores,
     };
 
     let html = template.render()?;

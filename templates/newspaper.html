@@ -178,6 +178,50 @@
             font-size: 0.65rem;
         }
 
+        /* Sports Scores Box Styling */
+        .scores-box {
+            border: 2px solid #333;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+            background: #fff;
+            grid-column: 4; /* Far right column */
+            grid-row: 1;    /* Top of the section */
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+        }
+        .scores-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .score-item {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 4px;
+        }
+        .score-item:last-child {
+            border-bottom: none;
+        }
+        .score-line {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+        .score-status {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #666;
+            margin-top: 2px;
+        }
+
         footer {
             margin-top: 50px;
             border-top: 1px solid #ccc;
@@ -220,6 +264,25 @@
                         </div>
                         {% endfor %}
                     </div>
+                </div>
+                {% endif %}
+
+                {% if let Some(s) = sports_scores %}
+                <div class="scores-box">
+                    <div class="scores-title">Last Night's Scores</div>
+                    {% for score in s.scores %}
+                    <div class="score-item">
+                        <div class="score-line">
+                            <span>{{ score.team_name }}</span>
+                            <span>{{ score.team_score }}</span>
+                        </div>
+                        <div class="score-line">
+                            <span>{{ score.opponent_name }}</span>
+                            <span>{{ score.opponent_score }}</span>
+                        </div>
+                        <div class="score-status">{{ score.status }}</div>
+                    </div>
+                    {% endfor %}
                 </div>
                 {% endif %}
             {% endif %}

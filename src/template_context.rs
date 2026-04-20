@@ -18,6 +18,20 @@ pub struct WeatherData {
     pub units: String,
 }
 
+#[derive(Serialize)]
+pub struct SportsScore {
+    pub team_name: String,
+    pub opponent_name: String,
+    pub team_score: String,
+    pub opponent_score: String,
+    pub status: String,
+}
+
+#[derive(Serialize)]
+pub struct SportsScoresData {
+    pub scores: Vec<SportsScore>,
+}
+
 pub struct Section {
     pub name: String,
     pub articles: Vec<Article>,
@@ -31,4 +45,5 @@ pub struct NewspaperTemplate {
     pub volume: String,
     pub issue_number: u32,
     pub weather: Option<WeatherData>,
+    pub sports_scores: Option<SportsScoresData>,
 }

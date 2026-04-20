@@ -1,5 +1,5 @@
 use crate::models::Article;
-use crate::template_context::{WeatherData, DailyForecast};
+use crate::template_context::{WeatherData, DailyForecast, SportsScore};
 use feed_rs::parser;
 use reqwest::Client;
 use std::error::Error;
@@ -50,6 +50,90 @@ struct NwsForecastPeriod {
     is_daytime: bool,
 }
 
+#[derive(Deserialize, Debug)]
+struct EspnScoreboardResponse {
+    events: Vec<EspnEvent>,
+}
+
+#[derive(Deserialize, Debug)]
+struct EspnEvent {
+    status: EspnStatus,
+    competitions: Vec<EspnCompetition>,
+}
+
+#[derive(Deserialize, Debug)]
+struct EspnStatus {
+    #[serde(rename = "type")]
+    status_type: EspnStatusType,
+}
+
+#[derive(Deserialize, Debug)]
+struct EspnStatusType {
+    detail: String,
+}
+
+#[derive(Deserialize, Debug)]
+struct EspnCompetition {
+    competitors: Vec<EspnCompetitor>,
+}
+
+#[derive(Deserialize, Debug)]
+struct EspnCompetitor {
+    score: String,
+    team: EspnTeam,
+}
+
+#[derive(Deserialize, Debug)]
+struct EspnTeam {
+    #[serde(rename = "displayName")]
+    display_name: String,
+    abbreviation: String,
+}
+
+pub async fn fetch_scores(client: &Client, league: &str, team_name: &str, date_str: &str) -> Result<Vec<SportsScore>, Box<dyn Error>> {
+    let league_path = match league {
+        "nfl" => "football/nfl",
+        "nba" => "basketball/nba",
+        "mlb" => "baseball/mlb",
+        "nhl" => "hockey/nhl",
+        "mls" => "soccer/usa.1",
+        _ => return Ok(vec![]),
+    };
+
+    let url = format!("https://site.api.espn.com/apis/site/v2/sports/{}/scoreboard?dates={}", league_path, date_str);
+    let res: EspnScoreboardResponse = client.get(url).send().await?.json().await?;
+
+    let mut scores = Vec::new();
+    let team_lower = team_name.to_lowercase();
+
+    for event in res.events {
+        let competition = &event.competitions[0];
+        let mut target_competitor = None;
+        let mut opponent_competitor = None;
+
+        for competitor in &competition.competitors {
+            if competitor.team.display_name.to_lowercase().contains(&team_lower) || 
+               competitor.team.abbreviation.to_lowercase().contains(&team_lower) {
+                target_competitor = Some(competitor);
+            } else {
+                opponent_competitor = Some(competitor);
+            }
+        }
+
+        if let (Some(target), Some(opponent)) = (target_competitor, opponent_competitor) {
+            scores.push(SportsScore {
+                team_name: target.team.display_name.clone(),
+                opponent_name: opponent.team.display_name.clone(),
+                team_score: target.score.clone(),
+                opponent_score: opponent.score.clone(),
+                status: event.status.status_type.detail.clone(),
+            });
+        }
+    }
+
+    Ok(scores)
+}
+
 pub async fn fetch_weather(client: &Client, zip_code: &str, units: &str) -> Result<WeatherData, Box<dyn Error>> {
     // 1. Get Lat/Long from weather.gov redirect
     let zip_url = format!("https://forecast.weather.gov/zipcity.php?inputstring={}", zip_code);
@@ -57,8 +141,8 @@ pub async fn fetch_weather(client: &Client, zip_code: &str, units: &str) -> Resu
     let final_url = res.url().to_string();
     
     // Parse lat/lon from URL like ...&lat=38.636&lon=-90.2443
-    let lat = extract_param(&final_url, "lat").ok_or("Could not find latitude in redirect URL")?;
-    let lon = extract_param(&final_url, "lon").ok_or("Could not find longitude in redirect URL")?;
+    let lat = extract_param(&final_url, "lat").ok_or("Could find latitude in redirect URL")?;
+    let lon = extract_param(&final_url, "lon").ok_or("Could find longitude in redirect URL")?;
 
     // 2. Get Points data
     let points_url = format!("https://api.weather.gov/points/{},{}", lat, lon);
