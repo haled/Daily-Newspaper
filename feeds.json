@@ -61,8 +61,8 @@
       "sort_order": 3
     },
     {
-      "name": "BBC Sport - MLS",
-      "url": "https://feeds.bbci.co.uk/sport/football/us-major-league-soccer/rss.xml",
+      "name": "MLSsoccer.com",
+      "url": "https://news.google.com/rss/search?q=when:24h+source:MLSsoccer.com&hl=en-US&gl=US&ceid=US:en",
       "section": "Sports",
       "sort_order": 4
     },
