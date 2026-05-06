@@ -290,7 +290,7 @@
             {% for article in section.articles %}
             <article class="span-{{ article.span }} weight-{{ article.weight }}">
                 <div class="source">{{ article.source }}</div>
-                <h2><a href="{{ article.link }}">{{ article.title }}</a></h2>
+                <h2><a href="{{ article.link }}" target="_blank" rel="noopener noreferrer">{{ article.title }}</a></h2>
                 <div class="snippet">{{ article.snippet }}</div>
             </article>
             {% endfor %}
