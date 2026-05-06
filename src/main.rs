@@ -21,6 +21,16 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let config_data = fs::read_to_string("feeds.json")?;
     let config: models::AppConfig = serde_json::from_str(&config_data)?;
 
+    // Load publish history
+    let history_path = "history.json";
+    let mut history: models::History = if let Ok(data) = fs::read_to_string(history_path) {
+        serde_json::from_str(&data).unwrap_or_default()
+    } else {
+        models::History::default()
+    };
+
+    let today_str = Local::now().format("%Y-%m-%d").to_string();
+
     let weather = match scraper::fetch_weather(&client, &config.weather.location, &config.weather.units).await {
         Ok(w) => Some(w),
         Err(e) => {
@@ -71,10 +81,18 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
         match scraper::fetch_feed(&client, &feed.url, &feed.name).await {
             Ok(articles) => {
+                let filtered: Vec<Article> = articles.into_iter()
+                    .filter(|a| {
+                        !history.published_articles.contains_key(&a.link) || 
+                        history.published_articles.get(&a.link) == Some(&today_str)
+                    })
+                    .take(15)
+                    .collect();
+
                 section_raw_articles
                     .entry(feed.section)
                     .or_default()
-                    .extend(articles.into_iter().take(15));
+                    .extend(filtered);
             }
             Err(e) => {
                 eprintln!("Error fetching {}: {}", feed.name, e);
@@ -100,8 +118,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         let filtered: Vec<Article> = articles.into_iter()
                             .filter(|a| {
                                 let team_lower = team.to_lowercase();
-                                a.title.to_lowercase().contains(&team_lower) || 
-                                a.snippet.to_lowercase().contains(&team_lower)
+                                let matches_team = a.title.to_lowercase().contains(&team_lower) || 
+                                                 a.snippet.to_lowercase().contains(&team_lower);
+                                let is_new_or_today = !history.published_articles.contains_key(&a.link) || 
+                                                    history.published_articles.get(&a.link) == Some(&today_str);
+                                matches_team && is_new_or_today
                             })
                             .collect();
                         
@@ -132,7 +153,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let mut sections = Vec::new();
     for section_name in ordered_sections {
         if let Some(mut articles) = section_raw_articles.remove(&section_name) {
-            process_articles(&mut articles);
+            process_articles(&mut articles, section_name == "News - Global");
             sections.push(Section {
                 name: section_name,
                 articles,
@@ -148,6 +169,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let volume = format!("{:02}", now.year() % 100);
     let issue_number = now.ordinal();
 
+    // Update history with selected articles
+    for section in &sections {
+        for article in &section.articles {
+            history.published_articles.insert(article.link.clone(), today_str.clone());
+        }
+    }
+
     let template = NewspaperTemplate { 
         sections, 
         date,
@@ -161,10 +189,17 @@ async fn main() -> Result<(), Box<dyn Error>> {
     fs::write("index.html", &html)?;
     println!("Local file generated: index.html");
 
+    // Prune history (keep last 30 days)
+    let thirty_days_ago = (Local::now() - chrono::Duration::days(30)).format("%Y-%m-%d").to_string();
+    history.published_articles.retain(|_, date| *date >= thirty_days_ago);
+
+    let history_data = serde_json::to_string_pretty(&history)?;
+    fs::write(history_path, history_data)?;
+
     Ok(())
 }
 
-fn process_articles(articles: &mut Vec<Article>) {
+fn process_articles(articles: &mut Vec<Article>, is_global: bool) {
     if articles.is_empty() { return; }
 
     // 1. Calculate weights based on similarity
@@ -221,11 +256,20 @@ fn process_articles(articles: &mut Vec<Article>) {
         }
     }
 
-    // 4. Interleave to create [Minor] [Major] [Minor] pattern for 4 columns
+    // 4. Interleave
     let mut interleaved = Vec::new();
     let mut major_iter = major.into_iter();
     let mut minor_iter = minor.into_iter();
 
+    // For the Global section, we want a Major article (if any) to appear first
+    // so it sits between the weather and sports side-boxes in the top row.
+    if is_global {
+        if let Some(m_art) = major_iter.next() {
+            interleaved.push(m_art);
+        }
+    }
+
+    // Standard pattern: [Minor] [Major] [Minor] to keep Major centered in 4 columns
     while let Some(m_art) = major_iter.next() {
         // Try to get two minor articles for this major one
         if let Some(min1) = minor_iter.next() {

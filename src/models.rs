@@ -40,6 +40,11 @@ pub struct SportsTeamsConfig {
     pub mls: Option<String>,
 }
 
+#[derive(Debug, Deserialize, Serialize, Default)]
+pub struct History {
+    pub published_articles: std::collections::BTreeMap<String, String>, // link -> YYYY-MM-DD
+}
+
 #[derive(Debug, Deserialize)]
 pub struct AppConfig {
     pub weather: WeatherConfig,
