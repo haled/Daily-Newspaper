@@ -135,14 +135,16 @@ pub async fn fetch_scores(client: &Client, league: &str, team_name: &str, date_s
 }
 
 pub async fn fetch_weather(client: &Client, zip_code: &str, units: &str) -> Result<WeatherData, Box<dyn Error>> {
+    println!("Fetching weather for zip code: {}...", zip_code);
     // 1. Get Lat/Long from weather.gov redirect
     let zip_url = format!("https://forecast.weather.gov/zipcity.php?inputstring={}", zip_code);
     let res = client.get(zip_url).send().await?;
     let final_url = res.url().to_string();
     
     // Parse lat/lon from URL like ...&lat=38.636&lon=-90.2443
-    let lat = extract_param(&final_url, "lat").ok_or("Could find latitude in redirect URL")?;
-    let lon = extract_param(&final_url, "lon").ok_or("Could find longitude in redirect URL")?;
+    let lat = extract_param(&final_url, "lat").ok_or("Could not find latitude in redirect URL")?;
+    let lon = extract_param(&final_url, "lon").ok_or("Could not find longitude in redirect URL")?;
+    println!("  Geocoded to: {}, {}", lat, lon);
 
     // 2. Get Points data
     let points_url = format!("https://api.weather.gov/points/{},{}", lat, lon);
@@ -152,12 +154,14 @@ pub async fn fetch_weather(client: &Client, zip_code: &str, units: &str) -> Resu
         .json().await?;
 
     // 3. Get Forecast
+    println!("  Fetching forecast from: {}...", points_res.properties.forecast);
     let forecast_res: NwsForecastResponse = client.get(&points_res.properties.forecast)
         .header("User-Agent", "(Daily-Newspaper, contact@example.com)")
         .send().await?
         .json().await?;
 
     // 4. Process Forecast into Daily High/Low
+    println!("  Processing {} periods...", forecast_res.properties.periods.len());
     // We want today + next 3 days
     let mut daily_map: BTreeMap<String, (Option<i32>, Option<i32>)> = BTreeMap::new();
     let mut day_names: Vec<String> = Vec::new();
@@ -171,9 +175,11 @@ pub async fn fetch_weather(client: &Client, zip_code: &str, units: &str) -> Resu
         
         let entry = daily_map.get_mut(date_str).unwrap();
         if period.is_daytime {
-            entry.0 = Some(period.temperature);
+            // Keep the maximum if there are multiple daytime periods (rare but possible)
+            entry.0 = Some(entry.0.map_or(period.temperature, |current| current.max(period.temperature)));
         } else {
-            entry.1 = Some(period.temperature);
+            // Keep the minimum for nighttime
+            entry.1 = Some(entry.1.map_or(period.temperature, |current| current.min(period.temperature)));
         }
     }
 
@@ -185,8 +191,10 @@ pub async fn fetch_weather(client: &Client, zip_code: &str, units: &str) -> Resu
         if i > 3 { break; }
         
         let (high_opt, low_opt) = daily_map.get(date_str).unwrap();
-        let mut high = high_opt.unwrap_or(0);
-        let mut low = low_opt.unwrap_or(0);
+        
+        // If high is missing, use low (and vice versa) so we don't show 0
+        let mut high = high_opt.or(*low_opt).unwrap_or(0);
+        let mut low = low_opt.or(*high_opt).unwrap_or(0);
 
         // Convert to Celsius if requested
         if units == "C" {
