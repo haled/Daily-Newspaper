@@ -1,0 +1,56 @@
+name: Deploy to Cloud Run Jobs
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: valiant-azimuth-296116
+  REGION: us-central1
+  SERVICE_ACCOUNT: deploymentactionaccount@valiant-azimuth-296116.iam.gserviceaccount.com
+  GCS_BUCKET: valiant-azimuth-296116.appspot.com
+  IMAGE_NAME: daily-newspaper
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Google Auth
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }} # Recommended
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Authorize Docker
+        run: |
+          gcloud auth configure-docker gcr.io --quiet
+
+      - name: Build and Push Container
+        run: |
+          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Deploy to Cloud Run Job
+        run: |
+          # Update or create the job
+          gcloud run jobs deploy daily-newspaper-job \
+            --image gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            --region ${{ env.REGION }} \
+            --set-env-vars GCS_BUCKET=${{ env.GCS_BUCKET }} \
+            --service-account ${{ env.SERVICE_ACCOUNT }} \
+            --execute-now # Optional: triggers a run immediately on deploy

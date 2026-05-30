@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Daily Paper - Saturday, April 18, 2026</title>
+    <title>The Daily Paper - Friday, May 22, 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         body {
@@ -127,6 +127,101 @@
             text-decoration: underline;
         }
 
+        /* Weather Box Styling */
+        .weather-box {
+            border: 2px solid #333;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            background: #fff;
+            grid-column: span 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: fit-content;
+        }
+        .weather-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .weather-location {
+            font-size: 0.75rem;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        .weather-today {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 5px 0;
+            font-family: 'Playfair Display', serif;
+        }
+        .weather-forecast {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #333;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+        .forecast-day {
+            text-align: center;
+            font-size: 0.75rem;
+        }
+        .forecast-label {
+            font-weight: bold;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+        }
+
+        /* Sports Scores Box Styling */
+        .scores-box {
+            border: 2px solid #333;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+            background: #fff;
+            grid-column: 4; /* Far right column */
+            grid-row: 1;    /* Top of the section */
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+        }
+        .scores-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .score-item {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 4px;
+        }
+        .score-item:last-child {
+            border-bottom: none;
+        }
+        .score-line {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+        .score-status {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #666;
+            margin-top: 2px;
+        }
+
         footer {
             margin-top: 50px;
             border-top: 1px solid #ccc;
@@ -142,112 +237,254 @@
         <header>
             <h1>The Daily Paper</h1>
             <div class="sub-header">
-                <span>Saturday, April 18, 2026</span>
-                <span>VOL. 26 ... NO. 108</span>
+                <span>Friday, May 22, 2026</span>
+                <span>VOL. 26 ... NO. 142</span>
                 <span>GLOBAL EDITION</span>
             </div>
         </header>
 
         
         <div class="section-header">
-            <h2>News</h2>
+            <h2>News - Global</h2>
         </div>
         <div class="newspaper-grid">
             
-            <article class="span-1 weight-1">
-                <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxOZ2VmUVhFUV9LY09Va1RDSFA0aFpkQ2c5OFRUNjNDNDJlMTg2VnEwZHdPdnJxcFVLQzR2UWhLZ2hEU1Z6cjJtR2Vja3Z1Y042cVZFZ3YzbE5vODF6OEpUM2V3R3hrekttSnBNRy1nN01RRDU5Q2pQY2ZyTUxhR2l4UGlzNVBLMmhPZnQyeTN1VG4xLUNhVDN3?oc=5">Real Sociedad beat Atletico Madrid 4-3 on penalties to win Copa del Rey - Latest news from Azerbaijan</a></h2>
-                <div class="snippet">Real Sociedad beat Atletico Madrid 4-3 on penalties to win Copa del Rey  Latest news from Azerbaijan</div>
-            </article>
+                
+                <div class="weather-box">
+                    <div class="weather-title">Weather Forecast</div>
+                    <div class="weather-location">St. Louis, MO</div>
+                    <div class="weather-today">
+                        70° / 59°F
+                    </div>
+                    <div class="weather-forecast">
+                        
+                        <div class="forecast-day">
+                            <span class="forecast-label">Sat</span>
+                            82°/63°
+                        </div>
+                        
+                        <div class="forecast-day">
+                            <span class="forecast-label">Sun</span>
+                            83°/63°
+                        </div>
+                        
+                        <div class="forecast-day">
+                            <span class="forecast-label">Mon</span>
+                            85°/65°
+                        </div>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="scores-box">
+                    <div class="scores-title">Last Night's Scores</div>
+                    
+                    <div class="score-item">
+                        <div class="score-line">
+                            <span>St. Louis Cardinals</span>
+                            <span>2</span>
+                        </div>
+                        <div class="score-line">
+                            <span>Pittsburgh Pirates</span>
+                            <span>6</span>
+                        </div>
+                        <div class="score-status">Final</div>
+                    </div>
+                    
+                </div>
+                
             
-            <article class="span-2 weight-2">
-                <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPODBpdGgyRHhvSVJMRGVEdEFJclFQd0k4MEwyUjBVcUE1aFliVzZKb3I0WWR6b0JTQjBqa1JBc0ZTZVE5N3I2R2xqZk84VHdwUjhJZk14MW1HYmVOcDNJenljTlRBVEUwdVFxMFdkMms5SlNqNDVydWV6Ykg5M3hzV2lva0NEQXlEbkx0RUJVSDNlbC1jenNtbHBhRndlZlhK?oc=5">Iran’s Navy Tells Ships Strait of Hormuz Shut Again, Two Vessels Report Gunfire - gCaptain</a></h2>
-                <div class="snippet">Iran’s Navy Tells Ships Strait of Hormuz Shut Again, Two Vessels Report Gunfire  gCaptain</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiU0FVX3lxTFByUzVELWVCT3ZkUktFOTl5dWlfV1paU2JvRlltNDNISzNfYUJwamJFdExfSDNHLUVVQ2JjT1lQb1VvVURRaFhsbUh2anhBaUNodkhz?oc=5">At least six dead after migrant boat sinks off Libya’s Tobruk, sources say - Arab News</a></h2>
-                <div class="snippet">At least six dead after migrant boat sinks off Libya’s Tobruk, sources say  Arab News</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMipwNBVV95cUxOTG1CZ2VlSEZQU0U1T0pMc0V3T1ZHNUxuZkpLMFNvb09oeFpRcEpfOWc0Z3ZDcjZuYzNJYlFlQVZ3dkFpOW5rcHA0eTZaRzdBLW9faHItMDFKLUNQbHg2LVRhamlZcUxBUjdZU2JoamZaSzcwU0dMZTdMX3d3TlJlUS1kRDR6bXBsQXBKYjFNaUlJTUFkcHo2ZmszZmxtWlZZYU8wWWpHZUxqdWlSY0NFZURIaTFkU2J0NjFwVmllM3Bia0E4eUl2OE0xUFlKSTNDdUJaS0xTdHNBM1JCV240OGJ0clFjejNIT1NXd0pWNFJUczVpSUFVWU0tSmpCSzRxcXNRQmdNS0dheEtDTWhKa3BVX2lXc195WjV3ZTBEUUlRel9QRHc4Z29ncHhBazRZWGRRUzJwTFM4Q0RwdHNiWXZ4eDVkZ0hnazRxaHV4TkNXZURhVmUtVnFmRnZhNTlBUzZ3Wm5RS2lOT3FGSmRSbVNhVzlkVU5Hbk5YUzBlb3pwWllDQmRGakd1VTFoVFNvZHg0X3pDREt6T05TbWpIamhCeFhKY00?oc=5">Russia&#39;s Baltic ports halt oil loadings after heavy Ukrainian drone attack, sources say - MSN</a></h2>
-                <div class="snippet">Russia&#39;s Baltic ports halt oil loadings after heavy Ukrainian drone attack, sources say  MSN</div>
-            </article>
+
             
             <article class="span-2 weight-2">
                 <div class="source">Fox News</div>
-                <h2><a href="https://www.foxnews.com/sports/giants-trade-star-defensive-tackle-dexter-lawrence-bengals-draft-week-blockbuster">Giants trade star defensive tackle Dexter Lawrence to Bengals in draft week blockbuster</a></h2>
-                <div class="snippet">Star defensive tackle Dexter Lawrence is reportedly being traded from the New York Giants to the Cincinnati Bengals for a package including pick No. 10.</div>
+                <h2><a href="https://www.foxnews.com/us/two-time-nascar-champion-kyle-busch-tragically-dies-41-more-top-headlines" target="_blank" rel="noopener noreferrer">Two-time NASCAR champion Kyle Busch tragically dies at 41 and more top headlines</a></h2>
+                <div class="snippet">Get all the stories you need-to-know from the most powerful name in news delivered first thing every morning to your inbox.</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxQMzVZUGVES1lNXzRFLVcxbWctRlFUVGZIU2xiTEx6MXhlMkFQc0s5V041YW1tRFpXSl9RQkpidkRHSFpyejM1UGMtUXNpbDA0WmdXLWx6cFM4Q1NoMXdyUjBTY1RlNEhmaHVXZEQ3M1RNSFdvNUROTnExODQ2MzBDM3JseGZld2xsVTRKd0x4X19SaXY0bWV0eDNXRmZyODJ6MnhNQWFhdTRnbEk?oc=5">Natalie Portman expecting her third child - ANI News</a></h2>
-                <div class="snippet">Natalie Portman expecting her third child  ANI News</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxNcnI2NldCd3hqa3N3aldXX2JaYU9iTnduQnNJYlZOUlJWbDI2N2lmWlkxNE9XSHEzTklUeFFSNGhMNWw1Z1F0OVpiTUhqeGQ1VWZTaWdzYnJicU04Z3F1UXB3MDVjZElaNUF0aFN4S1RHdGtuLXNVUmpXZnczUEFBRjc4QnVRTUlQS1psZHlveG1rZ1JXbU9ieTlvalplQ2FMeWJHMzNRSWtaNXBCNzZoXzdyQnhMV2c?oc=5">Trump says he has &#39;good news&#39; on Iran, no clarity on peace deal - The Straits Times</a></h2>
-                <div class="snippet">Trump says he has &#39;good news&#39; on Iran, no clarity on peace deal  The Straits Times</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxNWVQ5TUE4aTVleUJzMkxrclViZ1JaMnhlVjRPNFRmOTlJOFczOGdpTDdSd29xWUdObzF0MkpVcWFmTm1UNlNES21kOFFQUWpvdnN3b0ppVkhFblpkY2Y4akJ5eC02d01vM1had0UyZzlkMlloTVItUlJtLVJRMzZSNnZKeXd2SXkzalgxXzBXRzYzQzV5RDRQaEN6OGdBMXRsVlowY0ZvblJTdjRqMjZvMnhwMGg3YUdWaWJfdXdZUEZkb28?oc=5" target="_blank" rel="noopener noreferrer">China June fuel exports set for slight increase as restrictions hold, sources say - Reuters</a></h2>
+                <div class="snippet">China June fuel exports set for slight increase as restrictions hold, sources say  Reuters</div>
             </article>
             
             <article class="span-2 weight-2">
-                <div class="source">AP News</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxNTWZOWTEtSzUweUJ1RWdsQ2JtS2dyb1JtcFBLdktVMWt5VElZbTUzWHpNTjUwT2Q1aTlmbEYtblg2YXFsdkc0TVAyZElNM0tUendtNTdfRHllaHU2VEY3STNVa1hNMG1Hck1FRmFkbWdFdjdTenN3aG1ENzdDWEZsUHduanQzbDFBRzZ4bjY0YlhROGVkSHRYM1pOY192b0laRmhMdkdabEtPd9IBrwFBVV95cUxQYkpYdXAtb3pPN0dybFJpTV9PNC0ycjRMSGhYTEVKZVZFOXBCY1pPdXVWaC1raHlOMlhHYjZKVnl4RTJ2NUM0MXgtTkhIdUpyRFZCRUx0V2FaczJyakhtMUJ2VHRHb0MxU3ZNR0FzdHNTR0ZNXzI4OW53THkyanRVVDR0b1g3eUY1eTJUUTZfNXgzSDl4aUJteC13RktVa21KbkpGWmtia1JSUFJfVmFV?oc=5">Ukrainian police shoot and kill a gunman who killed at least 6 and took hostages in a supermarket - abcnews.com</a></h2>
-                <div class="snippet">Ukrainian police shoot and kill a gunman who killed at least 6 and took hostages in a supermarket  abcnews.com</div>
+                <div class="source">BBC News</div>
+                <h2><a href="https://www.bbc.com/sport/football/articles/cx21y7023qxo?at_medium=RSS&#38;at_campaign=rss" target="_blank" rel="noopener noreferrer">Guardiola says &#39;nothing is eternal&#39; as Man City confirm exit after 10 years</a></h2>
+                <div class="snippet">Manchester City confirm that Pep Guardiola will leave at the end of the season after a decade of unparalleled success.</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMi5AFBVV95cUxNNDRXODhiSjdfNmpNZDVuaGFHSTBMRjlHTFF0c09GOXRLWmVJNUszR3k4a0MxenNWUGFsYXFEbjVnaW9ERHBucDd4Q3Y0cHNFNVJ5WWY1NTlTakZNY3U5OFVfVjZ3VFZFT1MxRFNHMjVxS25Oc29hckM3cmNwUHZPS3RwUmxDWG94UFFZckhqTkRVLTdOSlhLaTNYVmFWWGplM0V4ZnhKcUJ6bFllaG1UQ2dybFBLczBBa3EweDR3eWJKd2dxMFpsa2xSWUNLSjNhWm9iS3Q3YXhIYkVDYlhoa3dhR0TSAesBQVVfeXFMT3RQRWxPVjkxc1ZhMlRVUGFQa0EwTFc5bXk2QWM2aEVqekItM3BEVDc0RVlnbVBGVEdNUUdyOV93MlpJb3VZbV9wOVBJZm96RF9wZW5VZ0lUS0hxUDFIWExWZm5rUDJnd3RROXZjYWhrWGdKc2lmUDFabVM4M2pBaEVOa2NfMXNBd1ZBZ3ZGVmVNQ0xzRFVBT2txM2hvZ1FVMWdxXzhUY3gxbHM2VTh6YlFRb295emxGVnpIMmtLckQwT0VzZzVpUnlzWXA4eG02UEpGdnFkb3pBN04yWlpWT1BEQ1JHVHlHSFFVZw?oc=5">India drops proposal to mandate national ID app Aadhaar on smartphones after pushback - The Hindu</a></h2>
-                <div class="snippet">India drops proposal to mandate national ID app Aadhaar on smartphones after pushback  The Hindu</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxOY2ROZVpBVnRSc0xsV0QyS2piUHdVRnYwU2F0NWYxYW5aX0pLanBud3hUQ2FMV3BhdDk1Nkt5dDdCNWVYd01QT1hXeFFWcFN5VGZVU3dmOHY1LTZzUDhWYmVIRDFGWkNxdTVRSHM3NUhzd1h0RmZJNkNqdmpCeWd5TkFsUkJEY1pQTWR0a0tSc3BRYW5nNW5QMml4NGRRaGt3UXhVVGpsQkhaUkNDM29FVnBWOUl0SXJnYll3c3hR?oc=5" target="_blank" rel="noopener noreferrer">Northeast Asia ships first jet fuel to Europe since Iran war, sources say - Reuters</a></h2>
+                <div class="snippet">Northeast Asia ships first jet fuel to Europe since Iran war, sources say  Reuters</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiX0FVX3lxTE5GeWp4MmRGdkgydkcwdldTN0ItaW42b3J3SU8zb0tEckJHSDBUbnBoZEZqQXNzRVdjTnJiU2V5Tk9KaHBwZ1VjcHpJdnRZZnpGQUYyUGY1cGJ4YVlRTEpZ0gFsQVVfeXFMTlZ4MGd4dTc1QnJncllVMnRBLVNtVWVpNVlGTU5iUkt6SXNFNkx0VmI4SnBMMTVkYmNORm56UGV3NnhZazM0QlNyUWg3SWp0Z2d2QXgtTUlvbXAxYlNCb0RTMWZfYW11ZElPZkFW?oc=5">Iran negotiators, citing possible Israeli attack, got Pakistan escort home from peace talks - Prothom Alo English</a></h2>
-                <div class="snippet">Iran negotiators, citing possible Israeli attack, got Pakistan escort home from peace talks  Prothom Alo English</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxQcDJOMFBUbFAxR0c5YkUyYWJhaFBMUnBaRUtfX0xzMFZPNUpwR2dzbGpaMklQcmJIQXZPVGFmMDNpdGdrZGZ4VUtMWkpiNkktN2tHZEtFcFJvaGxlU2hubVU3SEx0TUtjTEYyTWFEdG1rU1hHSVE1VVRCSm54X1FIYTM4SzJIOHFSMHljblE2bXl3RGhvTTFsY0tSOXktM0UxRUNOOXFFaFRNZXJMd09rQ3VTdmE3RjdVMDF6WWVB?oc=5" target="_blank" rel="noopener noreferrer">Gaps narrowed but still no deal with US, senior Iranian source tells Reuters - The Times of Israel</a></h2>
+                <div class="snippet">Gaps narrowed but still no deal with US, senior Iranian source tells Reuters  The Times of Israel</div>
             </article>
             
             <article class="span-2 weight-2">
-                <div class="source">NYT Home Page</div>
-                <h2><a href="https://www.nytimes.com/2026/04/18/opinion/pope-trump-hegseth-iran.html">The Pope Bedevils Trump</a></h2>
-                <div class="snippet">A higher authority finally tells Trump he’s no messiah.</div>
+                <div class="source">BBC News</div>
+                <h2><a href="https://www.bbc.com/news/articles/c1d26nv6xw5o?at_medium=RSS&#38;at_campaign=rss" target="_blank" rel="noopener noreferrer">Jury discharged in Ian Watkins prison murder trial</a></h2>
+                <div class="snippet">Rico Gedel and Samuel Dodsworth had been on trial at Leeds Crown Court accused of his murder.</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxQWXlqN1ZONk83ekFpNmh5dzRqMzNyWkZjRlBISkRGSlgyQ2pKSzhVeXEtT3BkRURGbVF1STE4N2VUR0JITThRaFFsTjhwYmRfWldpR084UkFtejUtZjlLTXlTenVfWXdBM2FQMWprWkdORW9xbzNXYTlSMmg2NC1hYy1rX2xhLV9oSDdBZ01MZDRtcjI5dldFR0dqdUI?oc=5">Iran says no date set for next round of negotiations with US - Ada Derana</a></h2>
-                <div class="snippet">Iran says no date set for next round of negotiations with US  Ada Derana</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxNcnpsWW9EMkN4YTktZ2pJRTk2TTRKUzJ1dG5zM2l5UFVyV2VQMjE3ZEdGbkE0bm8wblh6MENUZjA2aTk5eTNMdU1FTDRENU1wZnJ1b0tpVGlOSjU0QmNhV0tpazktcUdQVktONERWc1R4dnpveUpZVy1fUG04bDZsS2lWWk41V0E2bkJTTFJIRFcxekRXWTd6eldOUWFqWDlNeGtuU3J3cjNUYVRDbV9LNGV3YVpTYWdjaEJWYkE0Yw?oc=5" target="_blank" rel="noopener noreferrer">President Sharaa Expected to Attend G7 Summit in France, Sources Tell Reuters - The Syrian Observer</a></h2>
+                <div class="snippet">President Sharaa Expected to Attend G7 Summit in France, Sources Tell Reuters  The Syrian Observer</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMi4AFBVV95cUxNMEQ4TUZvZzFGY2pjaXpXbEhtMllYT2xfSHExWGdDY3VGaXlyLTU2UkZSWGVDTWNSTDZQUnhkS1VIZDQ3b1dHOHc0MUw2eTVUSnZMYm11eEthTndMaDR5Sm82ZlNyaWNOM0o3aEgtSml1dnBtZHloRGdLNWxjRlFpalliNFl6MW5TektDajMyT2dVQVduRi1Zams5elRTZU85MU53QlZDVUpacDNlMEdtcjRBNVZJVXJRZFIyOGU1WjQzNS1iVnF6dk85WVpGSVlIUnlEX0N0bDN0VFNNc0NpLQ?oc=5">JD Vance travels to Pakistan for Iran negoatiations just hours after talks with Benjamin Netanyahu - MSN</a></h2>
-                <div class="snippet">JD Vance travels to Pakistan for Iran negoatiations just hours after talks with Benjamin Netanyahu  MSN</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxORlczLVV3eGFncnN4MXNDc21yWVIxUlR2YmdVT1ZKSURDYW9SbWt3SXRyV0ZaLVZMNTU5VEctLUxGQ0Y0d2J0QUZvb1Zvdm42X2pIZWgteXJoZmlNd09fZVczRDJ3Y0VKbjNCM3htZVVzbEE5ZC15NFJXRHJmQnBMazE0OEtLWnlfSzgzQjZYV3ZHUlBabmRLSDA0TE1jeW4xUWxEQzNtcGQ3SmRlVGJRRnM1Nnpoc2JNZTF3a09GZUJ4MWsxUDJieg?oc=5" target="_blank" rel="noopener noreferrer">Reuters: Russia’s Fourth-Largest Oil Refinery Partially Suspends Operations After Ukrainian Strike - Мілітарний</a></h2>
+                <div class="snippet">Reuters: Russia’s Fourth-Largest Oil Refinery Partially Suspends Operations After Ukrainian Strike  Мілітарний</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiygFBVV95cUxNN2p0VnpzNXhzNjU0Vm9IaGRqZjMwekFuSjUxTXdHdUtZSEpoSTF0ZDM0VzlvTi1FemtYUGFMbGEwbTM5UUFiWmN6VER3RkYyLWZZd3loX3dLdkVEUllmY21LdnNnMXJiOW5Ub1dzSXBIT2NZanBKRXFjTXhILWhvQURoUUhoR3g2cFo0VHpzdExqVkFkQ2lNQ091ZGZUSnpNSEljTFdFM1VyekJkb3RheTFGdWVUYm9xR09HV0Fvbm80cWpZWkpDV1N3?oc=5">Donald Trump slams NATO: &#39;absolutely useless&#39; as he declares Iran war &#39;almost over&#39; - MSN</a></h2>
-                <div class="snippet">Donald Trump slams NATO: &#39;absolutely useless&#39; as he declares Iran war &#39;almost over&#39;  MSN</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxNanFhSzM2ZXpzZGdFU3Y3a3hETlJyNEtMbUlhQ2VkdXp3czBTZUFDdmF6UDJTNklZRnV0dWZmd21rZWRhRXUwWVhoQ1dFSzRfWWtTUjFtc2dfLW0wWlZZUVdDdWRWRDNiOHVWdTRUMHE2UXk4MllBSGhkNHNITl9GVHpraFNlcjktSWc0cVcwN2JTZGF0QTZGSV9lLUFKcXhra2JoMDlnTzktTWF6dGc?oc=5" target="_blank" rel="noopener noreferrer">Taiwan says it has not been told by US of arms sales delays - Reuters</a></h2>
+                <div class="snippet">Taiwan says it has not been told by US of arms sales delays  Reuters</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMi1gFBVV95cUxNcUpoUXVxUmdzakxxQ1lXbnh0d2hZcTh6VFhVbGFlWWZTMjRXMFFMenF5bjdnbHZFdTZjbUtTVW5CaEtMLTNRam5NUzVWODJGbTlsdjhMR3dSSHlzNllCeUtNdUcyVzRVTDJYOHo0clBJTmhSMmZiNTI5eFJPb0tpT1dYTkZMNk9UVElGaXJUaVQzTUhEcTA5azdkWnA0RFhFQ3JTTmc3dVJYbDlBeHIzOU9qS0RTS2w1ZENkN0VuZ3JGbzV5Q0RLZ3lQY3Fta3hTclh1aVN3?oc=5">Iran &#39;closes&#39; Strait of Hormuz after Donald Trump announced key waterway was &#39;completely open&#39; - MSN</a></h2>
-                <div class="snippet">Iran &#39;closes&#39; Strait of Hormuz after Donald Trump announced key waterway was &#39;completely open&#39;  MSN</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxOQjNVY1BRR2J6WE9vYVZuRXloT2JGWURBM0JlNHZQd0lMd1RGNTBXTWE0bGRvdkFFcVEwZXN5Z2VoNTBfNzRuUHVBWEsySDNiMzBWWlFIeWlSdmVZM3Q4R2FhRXd2RjBnSVhZVE4tbTBIdkJTNFRRdFBEWmc2cndrR1oxbUtBajdqeUpfVXJmMUVtOEZsQlgzdFpsYmFGMHpBb08xZGxGNlVRMkJxbkxSanVobENBZ093M0w4?oc=5" target="_blank" rel="noopener noreferrer">Oil prices rise as investors doubt breakthrough in US-Iran peace talks - Reuters</a></h2>
+                <div class="snippet">Oil prices rise as investors doubt breakthrough in US-Iran peace talks  Reuters</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters World</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMi7gJBVV95cUxPNXY0Z2NLQXp6YVZmOGx6TmNHbW1KdEFvY09ESU8xbDEzdWd3Njc0bnd5ZmdsamVZdjZ1Mll4bTNoWUxKdE4tdnZuSEpFcW1KcEJxTDdiNGlkdVMtSmQ0RlNESU9YYjJDVmd4ZExtaFJia0RhQ0tLcHIwaklCc0s2cmh0SlU0OGl4dlZpNTY2V2QyTDZ0NDZDY3FOclg3Q3ZvaXc0bVV1czZPQ0lna0FvSU0yRHdYaDZMdV9GemFrZ1BIR1UyeTNtWTlPaVhuS3JNVHF6UGxya1dYeUhEVVQ0dUljUXpsb2tvMkpwaENKRVRRaXhNSFI4TkI2Y3UxYVB2N2lvUnFFenVpUERiWl9YWGd4c0RKSjhmbTc3Rmd3SHlXTEdHNEMtRG4zNkJCMU9PUy1lMTJVeWRqaUJaUktjc0Z2NEdaQUtCTFQ5M3NhNTBBV0xaaExkaDFsQUw3WV9GcUdPY0pkWlJiVS1SeXc?oc=5">At least four people seriously injured as Air Canada jet and firetruck collide in New York - MSN</a></h2>
-                <div class="snippet">At least four people seriously injured as Air Canada jet and firetruck collide in New York  MSN</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxOMk9mTXdOaFE0STJCalRKY0FRSmM1WHQtMTc3V0pibzlrUWZTckpiaDV3aGRuYW9VcjNqR0Y4ZU40c2h3LVpVYWtoQkp0VTNhM0Jia19UZUpOTktmS2hzbjRmOHBET0EyOVBUeC1fMC1YNXA3OUFHRjd3NWMzRk5BdFB0dXRDd19ucWF4VUtvT3U0QzlIRmgyTXUxR3NjZXZIX1ZwVW5adksxVHVTV202QWZLVTdtWXoySTVKRQ?oc=5" target="_blank" rel="noopener noreferrer">China&#39;s PCG Power plans Hong Kong IPO filing as early as August, sources say - Reuters</a></h2>
+                <div class="snippet">China&#39;s PCG Power plans Hong Kong IPO filing as early as August, sources say  Reuters</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Reuters World</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxPZm5kemFMakdFdC1WNFVQd25VSm0xMGU1cml5SVl2QlpqY0xXQ3EwWWliRTdIMWd2LVpob2lBOHVBWDNsNGdYMmxOQTVsdmJKVWRaR0JsT0FQYkJSTVVxMS1fY0dock5qRHhOR0J0bkh3eDBZNlpPeFE0SWlIYjdlekZpQXRaNkMyQUItM29BQlByZzVaY0dnLTBwZ1FBNW9ZdEZxcjExRkhQTS0wakVMckhZSFNRUQ?oc=5" target="_blank" rel="noopener noreferrer">Wall St indexes end slightly higher as investors focus on Mideast peace hopes - Reuters</a></h2>
+                <div class="snippet">Wall St indexes end slightly higher as investors focus on Mideast peace hopes  Reuters</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Reuters World</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMimAFBVV95cUxPMjlMVmJHeFJmNzAxbmJGbzJ4WkxxcFRjSjVHT214MXVfNlI4bHU4N0tyUnhEOEVsMlJPTHkwcUQxX0dWWUZJRy1Tb2xmVTY4cElXRURGc1lqaF9DelFrSm1IN0ZMdUV4YzQ0TnFXXzBDV2lwQWRyTkJuX2ZJaEtJUDBESTRiRml2LUp1QTJDUXBVVU1pbnVLMA?oc=5" target="_blank" rel="noopener noreferrer">Asia&#39;s currencies are flashing oil shock alarm - Reuters</a></h2>
+                <div class="snippet">Asia&#39;s currencies are flashing oil shock alarm  Reuters</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Reuters World</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxQVmY3WHFWMHhlT1ZDRDFrNVRFdDliN1FPMmdoWWNqa2JYWjNvbUNRUzJKSW04cDlZT0t2QjZ1YUdwdHNlR2VXSnVuNFZsaFhYa3RUX1JIcy1yQmVGekF0eDIxRS0tMDlQdFdiNk5rUjVjNjJXSC1SNk50ejhCMi00bkdOQ2trbS1YTkxZUmd4MERiUQ?oc=5" target="_blank" rel="noopener noreferrer">Trump vows U.S. will retrieve uranium from Iran - Reuters</a></h2>
+                <div class="snippet">Trump vows U.S. will retrieve uranium from Iran  Reuters</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Reuters World</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxOakk0el9sQ211bjhkTWlQSTZmZnJLN0xSOEk5NFFSV00wMkUybThoR0RVNk05M3FyM1pHbS1aLTR6LWhMSzFqbFViZ3pYMjhPb0E4c295eHZlX2JuSVkxaEdYM1lqX1puX1VuRS1IRVB4VUdYMHRrdkNLeUZ1S2dETUgwcGNqWDNpdHhuRnBTaUlhak03XzJBZ2xQXzFSd3AwVGRqUkg2ajVBN1ZvQjNpQUVqTDJHcGxmN09BclluU1NqS2VmU3c?oc=5" target="_blank" rel="noopener noreferrer">Soccer-Renewables magnate Riquelme launches Real Madrid presidency bid - source - Reuters</a></h2>
+                <div class="snippet">Soccer-Renewables magnate Riquelme launches Real Madrid presidency bid - source  Reuters</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Reuters World</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiygFBVV95cUxNSHoyeGdOb3JzNzQ2YUh3MXQ2LVFHS0Mwd1JDTnNISGNKcF9IeURSTEZpRUltS1RJZDRDR2Zua085VmhQdTlnWU5yNGlRb29CZThDYlRtQ3NyakxWM2d4dGoyczhCSkhoVE9wNlpqX0RSY2R0b3k1d0pvMV9EQmo1LW9iM2Y0NlFGTnZNZWRNQTllX1hLcm15YUhfZnkySHR1bGUxNHVGNXQ0VkNSOUFMN0dJTWhoZjh0ZkhaUmpLckE3bWZBUG5jSlFn?oc=5" target="_blank" rel="noopener noreferrer">India central bank not in favour of rate hikes to defend rupee, prioritises inflation, sources say - Reuters</a></h2>
+                <div class="snippet">India central bank not in favour of rate hikes to defend rupee, prioritises inflation, sources say  Reuters</div>
+            </article>
+            
+        </div>
+        
+        <div class="section-header">
+            <h2>News - Local</h2>
+        </div>
+        <div class="newspaper-grid">
+            
+
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/nation-world/fkyle-busch-charity-fans-donations/507-3d1f560b-a384-42f3-a805-4bee2d583f30" target="_blank" rel="noopener noreferrer">Fans flood Kyle Busch&#39;s charity with donations after NASCAR champion&#39;s sudden death</a></h2>
+                <div class="snippet">Hours after two-time Cup Series champion Kyle Busch died Thursday at 41, hundreds of fans directed their grief toward his infertility charity.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/nation-world/man-who-executed-houston-mechanic-learns-his-fate/507-d145baaf-ddce-4938-a06c-f51b579db6d6" target="_blank" rel="noopener noreferrer">Man who executed Houston mechanic over $500 repair bill learns his fate after guilty verdict</a></h2>
+                <div class="snippet">After learning his sentence, Orozco reportedly yelled at the victim&#39;s family in Spanish as he was being taken out of the courtroom, saying he would be out one day.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/entertainment/late-show-stephen-colbert-tyson-cranston/507-1f8ca8ab-d68e-47d8-943f-a065c350446b" target="_blank" rel="noopener noreferrer">Here&#39;s which celebrities had cameos in the final episode of &#39;The Late Show with Stephen Colbert&#39;</a></h2>
+                <div class="snippet">Outside of the final guest, who Colbert kept a secret until Wednesday&#39;s episode, there were 15 celebrity cameos.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/nation-world/stephen-colbert-last-show-guests-performances-end/507-1b68eb8a-0a4e-403d-8b07-37a3b84f7a7c" target="_blank" rel="noopener noreferrer">Stephen Colbert says goodbye to &#39;The Late Show&#39;: &#39;Choose to do it with joy&#39;</a></h2>
+                <div class="snippet">Stephen Colbert has wrapped up his final broadcast of CBS&#39; “The Late Show” on Thursday with a memorable night.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/local/st-louis-man-dies-falling-off-construction-equipment-run-over/63-660a4203-2039-4844-b865-59f8f16f19c4" target="_blank" rel="noopener noreferrer">Man dies after falling off construction equipment, run over in St. Louis</a></h2>
+                <div class="snippet">A construction worker died Thursday after falling from equipment and being accidentally run over near the Compton Avenue overpass.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/local/st-louis-the-hill-considers-historic-designation-amid-development-boom/63-3e4a8101-3b88-4a16-b583-35956c5c3bf5" target="_blank" rel="noopener noreferrer">St. Louis’ ‘The Hill’ considers historic designation amid development boom</a></h2>
+                <div class="snippet">Residents of the famous Italian American enclave are considering a local historic district to regulate new construction and preserve their heritage.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/local/rebuilding-delmar-st-louis-business-plaza-bounces-back-one-year-after-tornado/63-bb302254-6d7e-4f6f-a1be-7b2ae6f5764b" target="_blank" rel="noopener noreferrer">Rebuilding Delmar: St. Louis business plaza bounces back one year after tornado</a></h2>
+                <div class="snippet">Landlord and tenants push forward at Delmar and Union, urging the community to support local businesses to support full recovery.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/nation-world/nascar-champion-kyle-busch-dies/507-98fe85da-3a49-4990-ad7b-c64ac8dc5c81" target="_blank" rel="noopener noreferrer">NASCAR champion Kyle Busch dies after hospitalization for &#39;severe illness&#39;</a></h2>
+                <div class="snippet">The 41-year-old NASCAR driver and Las Vegas native won championships in 2015 and 2019.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/nation-world/ohio-mom-3d-prints-mobility-chairs-children-disabilities-daughter/507-a4dc17a4-7f75-4246-a08a-50281dd4721c" target="_blank" rel="noopener noreferrer">Ohio mom creates 3D-printed mobility chairs for kids with disabilities, inspired by her daughter</a></h2>
+                <div class="snippet">Brittany Neal started the project after seeing what the right equipment did for her daughter Stormi, who has a rare genetic condition.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/nation-world/iran-war-resolution-republicans-no-house-vote/507-398867c7-e0b5-4f01-a426-612247277d55" target="_blank" rel="noopener noreferrer">Republicans call off vote on Iran war resolution that was on the verge of passing</a></h2>
+                <div class="snippet">Republicans are struggling to find votes to block legislation aimed at curbing the Iran war, revealing waning support in Congress.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/nation-world/stephen-colbert-last-show-reaction/507-501aed36-cb63-415e-aa35-29a6f2301712" target="_blank" rel="noopener noreferrer">&#39;Incredible run, my friend&#39; | Reactions pour in ahead of Stephen Colbert&#39;s &#39;Late Show&#39; finale</a></h2>
+                <div class="snippet">After 11 seasons, Stephen Colbert will host CBS&#39; &#34;The Late Show&#34; for the last time on Thursday.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/local/new-baden-off-duty-officer-remembered-for-decades-of-service-after-tragic-death/63-909e7c53-70e8-42b4-aaa6-8b61ac4c8e68" target="_blank" rel="noopener noreferrer">&#39;He gave back to everybody&#39;: New Baden off-duty officer remembered for decades of service after tragic death</a></h2>
+                <div class="snippet">Officer David Jordan spent 25 years serving four police agencies across Clinton and St. Clair counties. Chiefs say helping people was his favorite part of the job.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/nation-world/trump-son-don-jr-wedding/507-80b27788-8198-49d6-a286-9b9b8523b9c8" target="_blank" rel="noopener noreferrer">Trump says he&#39;ll &#39;try&#39; to attend son Don Jr.&#39;s wedding this weekend: &#39;Not good timing&#39;</a></h2>
+                <div class="snippet">President Donald Trump said Thursday he will &#34;try&#34; to attend his eldest son&#39;s wedding this weekend but cited the Iran war and a packed schedule.</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">KSDK News</div>
+                <h2><a href="https://www.ksdk.com/article/news/local/man-struck-killed-clinton-county-illinois/63-77b5781a-d213-4b3b-88cb-bddb1ec6cf40" target="_blank" rel="noopener noreferrer">Off-duty police officer hit and killed in Clinton County, Illinois</a></h2>
+                <div class="snippet">A New Baden, Illinois, police officer was struck and killed late Tuesday night while off-duty in Clinton County, Illinois.</div>
             </article>
             
         </div>
@@ -257,100 +494,153 @@
         </div>
         <div class="newspaper-grid">
             
+
+            
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxPcXd2QUlMNDRwOE1jcjNNbkVzQzkwbGRFNWdQMlN6Z2l6dnF6Tzc5VFkyZnR0N29IVFRCQ0VZU0p0NW4xZGN4ZEc2b0dpaWRFMjVsbTRQTTRSVTY0RlRaUEl3UmRkUklTTnZnZDJ1aTg2aHRwWEl4OWVUX3MxWkwwM1Q0MnBtUnhlS3F4cFkwTm81RUVVb25CNHRR?oc=5">Banks are losing the fight for merchants&#39; business - American Banker</a></h2>
-                <div class="snippet">Banks are losing the fight for merchants&#39; business  American Banker</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPUVpZcDAzemFrQlNSZzd6Z2Jlc1p1OS1PV3hDd0RwMUlOZ1FxLWNxdThZYnFOc014S21RaWUxUkh0LUJBYlpMd240NUlnQ21tb0EtbTEzMmlocHJnanhsMkNQMzZvaDFoR19RUzZmMy1EQTNBZGNZWnpfQ1NybHgzNUZJVGlsLTk2eC1UaUxVM1l5a01MTzRjVUpNdWxLRFpTVEhmb1MtbDhIZjJu?oc=5" target="_blank" rel="noopener noreferrer">Fiserv wants a special purpose bank charter. What does this mean? - American Banker</a></h2>
+                <div class="snippet">Fiserv wants a special purpose bank charter. What does this mean?  American Banker</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiowFBVV95cUxNZzBMb0Iza3FqS1dqcTJrbFZtLXhYSUxmOWhiaEJ1U182OXpRVVVnOXZBejFUSjFIdENBZWNOMm5EYVBrNGgzc0p1aHg4NDdNOW5CMGU4eGVJeU5XQTRWNG95NUFPbTRzSm5QSkQ0a2lNZTgyU3JUMjJUaHd4Q2JQWDJLWGRWZlh4alJGTFpOb2xpV25qblJETlYzeGltVkZlLTVF?oc=5">Jack Henry Teams with Moov to Launch Tap2Local to Facilitate Merchant Acquiring - Finovate</a></h2>
-                <div class="snippet">Jack Henry Teams with Moov to Launch Tap2Local to Facilitate Merchant Acquiring  Finovate</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxOTE9LYU9BSEpxMGIxc1J0ZjJWblRud2ktS29FYmFJVXhJT1YtQ0JsRTdvV0ptNHRYOXdDa0NNeTZiNGNUcnRqV1RXd3BQa045NHE5OUNrWVFqVkpKamlmeWVYOFNsY2FHT3FBYUFBU0pIcXpJcE5HNlhvQTlLZHJ4V2dia0VKamtWR01pTThzdVdBZHM4Tkg5LUlTSHYxa3l0UnJDdWZKOXd3VDMtbm9kMnZpMktPc1pNSWRSbGVnS3pxMXZEc1k2cUpqc2k?oc=5" target="_blank" rel="noopener noreferrer">Using A.I. to fight fraud - U.S. Bank</a></h2>
+                <div class="snippet">Using A.I. to fight fraud  U.S. Bank</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMickFVX3lxTE5Pa2JiOEZwYTRPbHdkMUQ0YjBMa1RYTE1TTW1OdTJRUnl6ZUV0WUdlR2haeHNmQWJMTEJIRjhwNm1CQzYySE5Oei1UaWZRc2l6NkVBY2pSTy1qekIyVXd1UVQ1M0VXV0xyOVdYVnVxWUdmQQ?oc=5">27 Top Payment Processing Companies 2026 - Built In</a></h2>
-                <div class="snippet">27 Top Payment Processing Companies 2026  Built In</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxQX2V0Nk5oZm5LYmxYdzJ1RWpCem0taFd2WUlKRFJXdXFzWXBSOFlLSURlb3pRZlluMlFwaFFJY3VyVnNKQ3hLLVdtUWNVV2ViYndtSUZ1ZUxHQVBOcFNoNlpZTEQ3NTFwNkJUTjBCNGpMU244MzcyVXd1UXpDNjNRTWNicHNyX28xbFNVOVdhOUFoVjdFWlpudXIyVkk?oc=5" target="_blank" rel="noopener noreferrer">Fiserv may grab competitive edge with new bank charter - Payments Dive</a></h2>
+                <div class="snippet">Fiserv may grab competitive edge with new bank charter  Payments Dive</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxNWGYwN25EbF9uekpEQ2Q1c2pQbmtWdHdSSnVsZ29Hb2ZXQnRaTTlSUTBWSE5wMjFhZ3NFSzZxdHR5LXRZdk5HLUdLSUE2M3hTMkw4MEVVWTdFbWdjOTk3NTZUMFpaVWxIRTZvYkVnZEQ2MzZvV3B2ZE0xN2p2UEdFWHJzVTFVLW5VNkJJ?oc=5">A Financial Turnaround Story at a Value Price - TheStreet Pro</a></h2>
-                <div class="snippet">A Financial Turnaround Story at a Value Price  TheStreet Pro</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxQdmFWNm92ZkhnSHlUX0h1VGhvU3BYdlZfOHFnZ3JHYzBmR2ktZnpJand2TjhHaFRvRzdjR0dkR2Vfenl3TXVzeDRoTTBIVlBCbkFHMWpjMlRCdUlYd0NFUnZjUlJtdGdaY25HWU9hZGEzQkpsRTdkbEVWSWx4ckg1ZGZBMG1ZeHNfb0RMa3p2QjZEUm5ETk1sNFdNeVU?oc=5" target="_blank" rel="noopener noreferrer">Fiserv to Acquire AIB Merchant Services - Business Wire</a></h2>
+                <div class="snippet">Fiserv to Acquire AIB Merchant Services  Business Wire</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxOX0tEbXVZaGFKd1g3MEFmQ2FEbzl2RTRHbUN4M045dVFKeFdPMUZfNWljRmNaek5xdzBQRmRtUFRyMXJ5bW9kTGl6eU43aTA3YkNwdktuTFZrUFhGLWRjbjFTajJlQmg5V25vV1FhZVhJNmZvcmRPR3h3MEw2UlRpQlRVT282Q2YtU1dFUTZxdjZzdmEzN1c4RHNoZmFnX0Jl?oc=5">Georgia bank charter attracts two more takers - Payments Dive</a></h2>
-                <div class="snippet">Georgia bank charter attracts two more takers  Payments Dive</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiY0FVX3lxTE43N09VRFphclk2NFdSZkFUYXd2UmoxRUctU0ZGbWxJczVrbEhkSmhvN1o4R1dQS1RKbEh4Q0xiM2RzdWY1alVFTW9aUkFiTVNyczdXWk1wS1JoTVBfblc1T3Btbw?oc=5" target="_blank" rel="noopener noreferrer">Brazil’s Surprising Fintech Tailwind - Andreessen Horowitz</a></h2>
+                <div class="snippet">Brazil’s Surprising Fintech Tailwind  Andreessen Horowitz</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxPSWhqNVBXSUo4OVBmWWRCX0U0SW9sQU9LdFh1U0VwR19FaUpsSTVPWjAtN0Jpa3FmMm42b0kwY2RMQ0ViZVRKSnpDT3VuSEozTFA3THFuTDlFVFFsbkZURjdhRGdGbkRGQlZMbkFGdThoQ19fcjU3bDNrbUczQzhoSWhPYkdLcC1ab1R6ZVQ1MDBFTnFEeXJaS1B6M0tCZTVvLTZjWTNQaE5ycnBvMW9fdmk3SUg?oc=5">Biggest merchant acquirers in the U.S. 2015-2024, based on number of transactions - Statista</a></h2>
-                <div class="snippet">Biggest merchant acquirers in the U.S. 2015-2024, based on number of transactions  Statista</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxNbkVrX1FZVnM5SVppQ2tfOVBqQXpCY1N3Z1hGS3NzLU5Rb3M1MFJDRW9lS2FTMC1kZ210bGwzLUhtSUVTNkpScHNvOFNYN1NoOHdDUXhYX2Zib2VDc3ktU2szcllFUnkxcE15VUxDUFVkQk5UTFY0eFluS1RDaWNSQnJTY28yT18xa3BPd1Jab1hhNUZGOElLS1A3T3EySkE?oc=5" target="_blank" rel="noopener noreferrer">The Cost of Card Payments for Merchants | Bulletin – March 2020 - Reserve Bank of Australia</a></h2>
+                <div class="snippet">The Cost of Card Payments for Merchants | Bulletin – March 2020  Reserve Bank of Australia</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMia0FVX3lxTFA4SkdVRjhNWmFiZ0oydFpWcmpXdUw1Q2d6STI0TVFEczBiV25FcTBpRFZsRGJoMWRUamdGVXRhb1F1bVZuSXlxd1FRY1RaVFVOUm11V1B5RWk2Mnl5VjV3MWVob2prOF9Jb0xZ?oc=5">Top 10: Payment Processors - FinTech Magazine</a></h2>
-                <div class="snippet">Top 10: Payment Processors  FinTech Magazine</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxNY3FkRjNQNE9ISFZaLVVlaHBldUZ4dDFtZ3pGQVQ1a2ctLUpnaFg1clc5X2Q3b09udElyZDZXZi1ZMjRpQXNSWUp0TktxWHRWXzIzclQxQmNyMVRsWEpKbmdONXdoLW03RGlvTHFRVTRRbmpfZnJuZnBvNmFvSWpCcjFXTkVtQklra09sQnJfZWw?oc=5" target="_blank" rel="noopener noreferrer">Beware: Payment gateways without licensed merchant acquirer can result in money laundering, financial crimes - Yahoo News Malaysia</a></h2>
+                <div class="snippet">Beware: Payment gateways without licensed merchant acquirer can result in money laundering, financial crimes  Yahoo News Malaysia</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxPTWd4Mk5lMHZLXzlrc2NNd1hNVjVjc3RQb2FCZzliWm5aMlFpUWxHQklXcW5xeGV6NE1tanBzbnFobTdrUi1HUDRBVGFLRGdELUtfS3ZtUm16amd1Q3BDby1XX3BtaFdfbnRubWdZdWV3NEFxaHVaTllFZl9SUE93aWxyYllVMmowNzkta05JbmJMclZ3Z0dlN3VxenBSbllmR3ZLLVZXcW96QnNFUEVrZVhZVDF4SjY0?oc=5">U.S. Bancorp reports second quarter 2025 results - U.S. Bank</a></h2>
-                <div class="snippet">U.S. Bancorp reports second quarter 2025 results  U.S. Bank</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxPZmtqUzBfOXJPQzN1bjZFV2JyY1JPUkdLS3R3NXprVHBma1pRYzdyTWVEckNObXU3QWJXV2hKbFhCTVFQT3daNTZ3RVdZWlg2Mk02ZkdfZG1RdmtVSVQwVjBUOUZndkhSa3N4anNJcVFTZlN3ZUlrdmlrN3FzcW9QdlN3TVdvZ3Fkbl80MEstX3dHUUJZckJZUGRDZFZkblVZMWI1LVBOR0NzR21CdzUtWTRya0c1U0ctSFRoQVBwYw?oc=5" target="_blank" rel="noopener noreferrer">Nigerian credit-led fintech FairMoney acquires PayForce in retail-merchant banking play - TechCrunch</a></h2>
+                <div class="snippet">Nigerian credit-led fintech FairMoney acquires PayForce in retail-merchant banking play  TechCrunch</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxOd013OWVIcFNsZm9JMFBnaXpYS21qTVdpbk9raE9XZmFiSmN3ek1HWGk3d1VDSnY4VmFQekJERFQ4YnJtNkJvZk1wWkdjN09ud0NUYzNWcEJhR3N5TFdIQm8zeV9NRjhqLXFYRzZkTm9rYlBaX2pCNW9NUHVRa3NJM3NCMUZmOHktUXoyYk45YkRZMHREQV8wMnlSMERIX19I?oc=5">Euronet to buy merchant acquiring biz in Greece; Lloyds to shutter invoice financing biz - American Banker</a></h2>
-                <div class="snippet">Euronet to buy merchant acquiring biz in Greece; Lloyds to shutter invoice financing biz  American Banker</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxQMkxJbHh2MFVXbzBJd0JRWVVjazVlU1RtVTRaQmFMeUs2NU8yYUNLVWc0MkhXRVZ5dElfSGpNR29mOVFBMUtNUVRiRF9ybFFDSllqc3JWLU50bnpyakhKcG9mZ0NTT2Z0SnliNkpraC1YVE55VEl6QXNiQkRNX1VtaDEtQVJtcmZmTzFMeFYtZDNOX0dLN3JqQmlWcFR3amhtRHRRY19VZFljWHpsZHpoU2ZRMTJfX0ZXT2k3cU0zdnhpQQ?oc=5" target="_blank" rel="noopener noreferrer">Fidelity National Info stock (US31620M1062): After Worldpay spin-off, focus shifts to margins and AI - AD HOC NEWS</a></h2>
+                <div class="snippet">Fidelity National Info stock (US31620M1062): After Worldpay spin-off, focus shifts to margins and AI  AD HOC NEWS</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMib0FVX3lxTFBlWVphbkoxSXh0NzEzdGN6eDU4TzVydDhPbnFwTFBzclZ5NzRLYlFFaGk2eDVENXBtbDBjZnNxbW1YdmxBLWxCWVJGV3pKWGFaZU1LUTIwN2c1dHA5ZnhVRExTYU0zdkxqZG05TGpkUQ?oc=5">American Express Card: Types, Benefits, and Fees Explained - Investopedia</a></h2>
-                <div class="snippet">American Express Card: Types, Benefits, and Fees Explained  Investopedia</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQWWlhSWxjajM1elBybGk1X2tNcGEzVy10QW82b3JELUxFSzdCQWNfTTY3bEkwNzRwc3ktUmM5aTZRbERCTklaNTA0UXgtMHNBMEJYdE9ZTzZKeFpKX3NxdldLMVZ1SzZEbmhGTy1kMGtmOXBmM1RyTWNIdDMwcUZ0eGViZDhsdnA5NkZ4ODRRUDlybldVa1FLdkNMMHV0UmdUaElrN3hkRzhkNko3Yy04dmZybFI?oc=5">Georgia&#39;s New Merchant Acquirer Bank Charter: &#34;Wait and See&#34; - Davis Wright Tremaine</a></h2>
-                <div class="snippet">Georgia&#39;s New Merchant Acquirer Bank Charter: &#34;Wait and See&#34;  Davis Wright Tremaine</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxQUDZaWDFIMS01SUpkT2V3NTIwME1DeE1TWVM5VDUybkdYdTFtRHE2OWVHR01XYUdENEtSWkJ1dlhaV2RzemhhR2V2UnhGQ25tNk1jd1k2LW03Ymh4ZFVlUVY4eEhHNGRIUkRpWHdHamhVVnFPVnVmMUlrelRydHFsNGp6a3hqdDBKVzVOZTVhallQVkVCUEhvSU9NdlFBVWwxdHJtcDhBbkpMdW1nQUZLaHZwMFhDYzc4OTlXYjhuWXEtTVhmN2w4cTVTTDNYSXNIeXU1ZUFxVE1fWDQ?oc=5">Exploring the Potential of Georgia’s Merchant Acquirer Limited Purpose Bank Charter - Consumer Financial Services Law Monitor</a></h2>
-                <div class="snippet">Exploring the Potential of Georgia’s Merchant Acquirer Limited Purpose Bank Charter  Consumer Financial Services Law Monitor</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxOZktJLUNSMVpXQzdPc19kckx0MzNzVUxTTkl3R0JsWjJxRUVON0ljdFdHSnVmNDB1OHhEcWd0UXNJdVNsMDF5dkR2NmtHNUQ3Umhmd3JOems3SGo2WEFLd0tuY2JqUGlXZFprclVoZkFTSWlHanF0aDczeHU5MzdNcHE3Y2hGQVFlNnVsZVlKVDVHQUpMVFBhZ2pXOG9Nd0hIbjYwUE1CVHZ0QQ?oc=5">Merchant Acquiring Mastery: Three Game-Changing Strategies for Competitive Advantage - FICO</a></h2>
-                <div class="snippet">Merchant Acquiring Mastery: Three Game-Changing Strategies for Competitive Advantage  FICO</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQR1VSMElLTC1GNVAwbEZqelhMYm8yNjluckxXZG5iRTd2ZFdxOTV4Yjkwb24zVDZaWEZsYTluOVlVbmhHN3g0NnpXUjhTXzFVZkV5WUFJVzhMaVFhZWtCUWNpcVU3UnpYRFNsY09GeDlicHFCSzR1US1uRVVqbTg0a0dCVjU5VVEtZy11OWpoNFpWUHphU29RcjZpMWJ2bGR3Tmx5cHBtZVYxTVFXUThqb1JNYWRrOUhWb2gtSU9td0ZFS1JuYTF3WEg4QQ?oc=5">Fiserv Processes First Card-Based Payment Transactions Under Special Bank Charter - PYMNTS.com</a></h2>
-                <div class="snippet">Fiserv Processes First Card-Based Payment Transactions Under Special Bank Charter  PYMNTS.com</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Reuters Business</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxQRklyR0o3azZIcjlVcU5wWmxmYjMxTDdISE9JMU11UHVuYkVmckU3LURhODRNMi1TSm4wR0JvWWZTcFZfOEpXVDQyX1gtRFlyQlA5Vk1NRThoNkVLRlFVNEZYSkpSQWR2WjVyVVNTQnlBOUxVWFptaFBHaVlzWmI2MlQ1eXI1RkdtM2tzVkw2QS1kaWFNVk5WcldPV25kaUk1UlFDbnlsMllQYThxSTkyWHlmRXNhYk5lQWFSTA?oc=5">Payment Technology Trends: What Business Leaders Should Know - J.P. Morgan</a></h2>
-                <div class="snippet">Payment Technology Trends: What Business Leaders Should Know  J.P. Morgan</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxQN01QTzA1dXlMZ1BQdkU5NC1aRFpvQXBIWFRmOXo1V3R2WXNsNG9uM2I0dy1PMF9yWXo1cXdfODJsRUNCdFNhNVB3c2JndmpWWWtZSEhjUjRnRUZ6XzZBMGtNOHktVjYwY0M0dEpVVTNhTmxBNk1QNHg4MEZjcjFQb1A2OGtSVGRQOXJCbXZ2azh3UUlGay1XNVFTaE5BVjdvVC16UjNKX2t5RWExUG9USWdJN09xdGwzd3lr?oc=5" target="_blank" rel="noopener noreferrer">Bankers warn card and digital payment taxes might lead to financial exclusion - capitalfm.co.ke</a></h2>
+                <div class="snippet">Bankers warn card and digital payment taxes might lead to financial exclusion  capitalfm.co.ke</div>
             </article>
             
             <article class="span-1 weight-1">
                 <div class="source">Wall Street Journal</div>
-                <h2><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxNZmxDTE81SzJOUVFWTDFRLWkyYzhxdTlpWndfTXFvZnF1UHFnakkySC1OMFdRWUNYZzJ2MGpBUmdySk5FM09GdlZ2NDVPMUV4bzdFSTVJVWhkME1xWU94MGdLblktb0haaGtsMWw3enZzaXRYdnhwM0wyeGpKS29ETE1Oa0JCNE9abF91aVhuenplZ29oR2kyVzE5OVREaHQwcUNZNGthUXY1NEpQMHA5clB1VWRKdw?oc=5">15 Proven Strategies for Startup Tips for Beginners for 2026 - The Detroit Bureau</a></h2>
-                <div class="snippet">15 Proven Strategies for Startup Tips for Beginners for 2026  The Detroit Bureau</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxOYlpmYkR5cVA1RUh5dHVTWFJtMEVSemNDaU4xMkNaWWZTWFc1eEZmYUtqeElteVY2NmFaeXR4aVJjSVRTWTdkSmxObkhBU3NLOHpiM1hSN3lpUWZuWFJOb3hKcGdZUkZDUGM0QXlRY09jZlRjTzlQRzQwUGtfMHdXb0p6X2tpbVdDWEFORHVWaGRhb3VmMUVlVkdiRE4?oc=5" target="_blank" rel="noopener noreferrer">World Trade Grew Strongly at Start of Year on AI Boom - WSJ</a></h2>
+                <div class="snippet">World Trade Grew Strongly at Start of Year on AI Boom  WSJ</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Wall Street Journal</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPMW1HT3Q3VjdZLWNlaFRkUS1MODNYbS1tSDI0U1NnTklGbDFjYlVEUTFuUnFOeC1iUTBaX29WMGpuMlMxd21aU21ZNTc1MS1EYzM5TWpJempBMEJzV2NSLUdjNV85UVhiSHN0RDlJZWx0TXhlOTdDdFhWZWl5VFZDSEFBVV94THdkWnMxNDVlcUJ3T2hYcnRRNEpUSXFvajVnVHp4TU1NTEVZenJn?oc=5" target="_blank" rel="noopener noreferrer">German Business Confidence Edges Higher Though War Concerns Still Weigh - WSJ</a></h2>
+                <div class="snippet">German Business Confidence Edges Higher Though War Concerns Still Weigh  WSJ</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Wall Street Journal</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxQaHJydkJRcEdIbFpORWRtS2VvdWcxOGpsYXdCZWVDa2hVaUZ5ektZV1pTcURoczljYmhILTJoN1o4cll1UjhrNTB1WWExemRoRG15SEVpYjRWNUtPaGZidUtkOEVOVWk0SXFyZngydkdQeXJTZ1lPbTRPMnF3ek1ialg2SDI0UWZxYktWVXd2ay15anJBc1IxZjVTOHY0VTlsamJGMjhmM2tTZ2c3?oc=5" target="_blank" rel="noopener noreferrer">Richemont Sales Growth Accelerates on Continued Jewelry Demand - WSJ</a></h2>
+                <div class="snippet">Richemont Sales Growth Accelerates on Continued Jewelry Demand  WSJ</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Wall Street Journal</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxQUTRGYTlud1FmV2JKYXF0ZHpMZmRUNnp0QjRuUDVqWkRmbWRfNzZJeFVPZm1TQmtwSGo4TjN2bllWajRtcmVsTkV0bVJYZnlaV1JmeHRfTWtqZWh4QXY3bXNISHNhTGRPMmxIM0xZbVRTaVlaYktQbmxEcU91aGw4a0VvWWhuaksxbXVjYnRhNmtielE2?oc=5" target="_blank" rel="noopener noreferrer">German Consumer Sentiment Bounces Back From Low Level - WSJ</a></h2>
+                <div class="snippet">German Consumer Sentiment Bounces Back From Low Level  WSJ</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Wall Street Journal</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxOeUhheXhVXzhraVAycnhPamFhN2dqOHRYM2NyZlJVM1V1YTEtalFJS2FKVWl3TDlCMTJTY1JkU1VNVVMtaWJxSC1fS2plb0NOcUlxZzZqM2pOdDJhQnhabDFmSFhGcGJ0WEJNVGRiejhYYnc2dUx1SkhDNzdES1F1NzJwNVYtdTgyd204WVhnTzhtVVhjVkY2dFJ5SS0yUVI4WFFfUDJ3a1ZWM3N6UUgwem5ZMUhTWC1f?oc=5" target="_blank" rel="noopener noreferrer">EU’s Carbon Border Levy Is Growing Source of Tension for Ukraine - WSJ</a></h2>
+                <div class="snippet">EU’s Carbon Border Levy Is Growing Source of Tension for Ukraine  WSJ</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Wall Street Journal</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMigAFBVV95cUxPVE5mdlpuYmZsYTJhcWJTZTRhYUhtVjV0bHBaMWw1X0RJeVl0c1pOMTl4dXVKNzhfSEhiVFZ5WU1zb1JXbEFkOUpKS1dxM0oycTM3TFFCY2FBLTRkQlFIR3pYTVB5ODl4dk5VZ0RxY3Bjb19nUEJpbkZ4RnpwSkJvMA?oc=5" target="_blank" rel="noopener noreferrer">U.S Jobless Claims Fell Last Week - WSJ</a></h2>
+                <div class="snippet">U.S Jobless Claims Fell Last Week  WSJ</div>
+            </article>
+            
+        </div>
+        
+        <div class="section-header">
+            <h2>Sports</h2>
+        </div>
+        <div class="newspaper-grid">
+            
+
+            
+            <article class="span-1 weight-1">
+                <div class="source">MLSsoccer.com</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMimAFBVV95cUxNT0RMN3AwWVpaZE05NGhHOFhXNkhRajVYMjF1Z0g0RjdIWE9hbjlpNTFFYVpiZXExNktnR2pTSkd1ZktoT1AtRDVxQlpEamdobDRpNF9RQ09NUXpQdGd4YVU5UENjb21XWmFPWEdkdDNlSU1qRl9mMi1ENHU5YTdIR2R0ejVKR1dYdGNjVmliRDduai1BYTRsZQ?oc=5" target="_blank" rel="noopener noreferrer">MLS on FOX! Messi &#38; Son highlight pre-World Cup doubleheader - MLSsoccer.com</a></h2>
+                <div class="snippet">MLS on FOX! Messi &#38; Son highlight pre-World Cup doubleheader&#38;nbsp; MLSsoccer.com</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">MLSsoccer.com</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMijwFBVV95cUxPRnZKelBPTHA2OG5pR0UyejFKYXJ1WEx5U01vNVVITTZ2LW9qV2cxS2RJYk43OHBSZ0FEa2xMZ015MlBGSFRTVHUxc21OZG8zSC1aOXNydGptdnVXUlJSaFhYaHdtbzZwcm50Tmt5UkIycUtHT3NWY0F3cEczTDU4YmVUcjl5aXVXYlhmM0s2Zw?oc=5" target="_blank" rel="noopener noreferrer">NYCFC midfielder Maxi Moralez suffers torn ACL - MLSsoccer.com</a></h2>
+                <div class="snippet">NYCFC midfielder Maxi Moralez suffers torn ACL  MLSsoccer.com</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">MLSsoccer.com</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxPVXNEOTBBS2dyX1c3ZWl4N1ZvVmszcjV1YzVJNnhBNVI5dEFTcm9PWGxvSzV0ZXR6anJJdXhGNzFvNERRbE5HODBzNnMxZGowc2RHNF8zZ085eGtiY09lQm1BRVFrRmVSdjRMdGxfdDJheXFrOE1ZbDRqR1FTWE4ycWZ6SmI5OW1lMVZtZEFRNVd3eV8tbXhxN0ZB?oc=5" target="_blank" rel="noopener noreferrer">Steven Moreira ready for Cape Verde&#39;s historic World Cup journey - MLSsoccer.com</a></h2>
+                <div class="snippet">Steven Moreira ready for Cape Verde&#39;s historic World Cup journey  MLSsoccer.com</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">MLSsoccer.com</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPV1RhaUozajE3WmNMdkVpRHppV2Y5WEdUWXRsTXVZZVgtbHp5YVNIZTlxdGdBSjBzMjd2RGlEc3NrM19fR1F2VkR6a2VEM0d2Q0tUMmVJWHVKRDlnMXJ2cUFESUIyckM0aElzTXVXRmc1LVB6VHFCSzlXTWp6b0JoZTR4SnVWbTFRem1GdGZ3RDk3eTVnVTBYbGt0UjQwTmx6?oc=5" target="_blank" rel="noopener noreferrer">Matchday 15: Everything to know for this weekend&#39;s biggest matches - MLSsoccer.com</a></h2>
+                <div class="snippet">Matchday 15: Everything to know for this weekend&#39;s biggest matches  MLSsoccer.com</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">MLSsoccer.com</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxQdDdjdGF4dENiVmlSeGlPc2tvcTI3eUhJTG5CTHpGSno4TWFCM2JrSGV5SlhzaUZXYVl3WE5Sb1FGTFJURFBQcEhnTUxYbHBEdVZyLUt1TGZqSW54VUVVa01TbEE5eXFRbm1kQWlfNHNKVWpTbmtKWUdmYVpQcDNreDFIemRfQjJyRDBQbW1tbHB0dk1QNnRXM0tLXy0zRkRzYWUtdm9hNy03WUF5NGZKZzd3dkFtbUhC?oc=5" target="_blank" rel="noopener noreferrer">Portland Timbers vs. San Jose Earthquakes: What to know for Walmart Saturday Showdown - MLSsoccer.com</a></h2>
+                <div class="snippet">Portland Timbers vs. San Jose Earthquakes: What to know for Walmart Saturday Showdown  MLSsoccer.com</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">MLSsoccer.com</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxNMHhmZFJXQjhlUTBwZ0Z3b1duUk5TV3pDQmVEUk05djBIbDVtay1UWThZZDRUWUI3RGRval9kVkhzR3E4WjdqQmg5WUl6TzlFTVI1SjYzMDVQaEJpUlRMMlhTSUhZdGNuZDZKd2VJTXAxX2NsbVlUVGpEZ1FmamhpdjdxYm1kcy03TjA5QWc1Z1B3UUpIU0NDWkpoV1ViVGFUOVp1NUFnSkU?oc=5" target="_blank" rel="noopener noreferrer">Cristian Roldan chases &#34;full-circle&#34; World Cup moment - MLSsoccer.com</a></h2>
+                <div class="snippet">Cristian Roldan chases &#34;full-circle&#34; World Cup moment  MLSsoccer.com</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">MLSsoccer.com</div>
+                <h2><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxQZ2Jfb2FsU1BGdmpuelp6OTNvRTIyUUExLWExVVVQbUYxcGhJQ01rNkFocDJGRkRydWZTR1lReW85SGlhdVZVQ0YzaVVJUEpUOUc5bVpvTDNFNElQMmNpRU5RWk9HVmRZNWh5TGljTFFmNVg4Mk4wWUVDLWdyQUozSDhyWHNfUEhGSm5lV21nZ2o2dGFpcEtpLXYyZEwtT2p1ZkpfdQ?oc=5" target="_blank" rel="noopener noreferrer">Columbus Crew vs. Atlanta United: What to know for Sunday Night Soccer - MLSsoccer.com</a></h2>
+                <div class="snippet">Columbus Crew vs. Atlanta United: What to know for Sunday Night Soccer  MLSsoccer.com</div>
             </article>
             
         </div>
@@ -360,100 +650,102 @@
         </div>
         <div class="newspaper-grid">
             
+
+            
             <article class="span-1 weight-1">
                 <div class="source">Hacker News</div>
-                <h2><a href="https://www.nist.gov/news-events/news/2026/04/any-color-you-nist-scientists-create-any-wavelength-lasers-tiny-circuits">NIST scientists create &#39;any wavelength&#39; lasers</a></h2>
+                <h2><a href="https://annas-archive.gl/blog/llms-txt.html" target="_blank" rel="noopener noreferrer">If you&#39;re an LLM, please read this – Anna&#39;s Blog</a></h2>
                 <div class="snippet">Comments</div>
             </article>
             
             <article class="span-2 weight-2">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://kdenlive.org/news/2026/state-2026/">State of Kdenlive</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://tokens.billchambers.me/leaderboard">Anonymous request-token comparisons from Opus 4.6 and Opus 4.7</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://jackpritz.com/blog/updating-gun-rocket-through-10-years-of-unity-engine">Updating Gun Rocket through 10 years of Unity Engine</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://sentinelcolorado.com/uncategorized/a-college-instructor-turns-to-typewriters-to-curb-ai-written-work-and-teach-life-lessons/">College instructor turns to typewriters to curb AI-written work</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://www.righto.com/2026/04/B-52-star-tracker-angle-computer.html">The electromechanical angle computer inside the B-52 bomber&#39;s star tracker</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://worksinprogress.co/issue/why-japan-has-such-good-railways/">Why Japan has such good railways</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://abacusnoir.com/2026/04/18/zero-copy-gpu-inference-from-webassembly-on-apple-silicon/">Zero-Copy GPU Inference from WebAssembly on Apple Silicon</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://byroot.github.io/ruby/performance/2026/04/18/faster-paths.html">Optimizing Ruby Path Methods</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://fset.common-lisp.dev/Modern-CL/Top_html/index.html">Modern Common Lisp with FSet</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://isayeter.com/posts/digitalocean-to-hetzner-migration/">Migrating from DigitalOcean to Hetzner</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://samhenri.gold/blog/20260418-claude-design/">Thoughts and feelings around Claude Design</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://science.nasa.gov/blogs/voyager/2026/04/17/nasa-shuts-off-instrument-on-voyager-1-to-keep-spacecraft-operating/">NASA Shuts Off Instrument on Voyager 1 to Keep Spacecraft Operating</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://en.wikipedia.org/wiki/Michael_O._Rabin">Michael Rabin has died</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
-                <div class="source">Hacker News</div>
-                <h2><a href="https://blog.marcoinacio.com/posts/my-first-impressions-rocm-strix-halo/">My first impressions on ROCm and Strix Halo</a></h2>
-                <div class="snippet">Comments</div>
-            </article>
-            
-            <article class="span-1 weight-1">
                 <div class="source">Ars Technica</div>
-                <h2><a href="https://arstechnica.com/science/2026/04/great-white-sharks-are-overheating/">Great white sharks are overheating</a></h2>
-                <div class="snippet">The sharks might also be the most physiologically vulnerable to warming waters.</div>
+                <h2><a href="https://arstechnica.com/space/2026/05/uh-oh-the-international-space-station-is-leaking-again/" target="_blank" rel="noopener noreferrer">Uh-oh, the International Space Station is leaking again</a></h2>
+                <div class="snippet">&#34;This further confirms the wisdom of the current policy of retiring the ISS in 2030.&#34;</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://modelrift.com/blog/openscad-llm-benchmark/" target="_blank" rel="noopener noreferrer">Antigravity 2.0 Tops the OpenSCAD Architectural 3D LLM Benchmark</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://libertas.software/en/knowledge-hub/19/the-companies-cutting-headcount-for-ai-will-lose-to-the-ones-who-didnt" target="_blank" rel="noopener noreferrer">The Companies Cutting Headcount for AI Will Lose to the Ones Who Didn&#39;t</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="http://muratbuffalo.blogspot.com/2026/05/chess-invariants.html" target="_blank" rel="noopener noreferrer">Chess Invariants</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://www.businessinsider.com/steve-wozniak-apple-ai-graduation-speech-2026-5" target="_blank" rel="noopener noreferrer">Steve Wozniak cheered after telling students they have AI – actual intelligence</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://valhovey.github.io/gaia-mary/" target="_blank" rel="noopener noreferrer">Project Hail Mary – Stellar Navigation Chart</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://github.com/unprovable/ShadowCat" target="_blank" rel="noopener noreferrer">Show HN: ShadowCat – file transfer through QR Codes in a Browser</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://www.ycombinator.com/companies/circle-medical/jobs/onMKAG9-mobile-engineer-android" target="_blank" rel="noopener noreferrer">Circle Medical (YC S15) Is Hiring a Mobile Engineer</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://slumber.lucaspickering.me/" target="_blank" rel="noopener noreferrer">Slumber a TUI HTTP Client</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://davidoks.blog/p/ai-is-killing-the-cheap-smartphone" target="_blank" rel="noopener noreferrer">The memory shortage is causing a repricing of consumer electronics</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://www.mathworks.com/company/aboutus/founders/clevemoler.html" target="_blank" rel="noopener noreferrer">Cleve Moler has died</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://arxiv.org/abs/2605.19269" target="_blank" rel="noopener noreferrer">CODA: Rewriting Transformer Blocks as GEMM-Epilogue Programs</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://crocidb.com/post/this-blog-ran-on-ubuntu-16-04-for-10-years-i-migrated-it-to-freebsd/" target="_blank" rel="noopener noreferrer">Blog ran on Ubuntu 16.04 for 10 years. I migrated it to FreeBSD</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://www.bbc.com/culture/article/20260518-helen-sharman-the-story-behind-the-first-british-person-in-space" target="_blank" rel="noopener noreferrer">The surprising story behind the first British person in space</a></h2>
+                <div class="snippet">Comments</div>
+            </article>
+            
+            <article class="span-1 weight-1">
+                <div class="source">Hacker News</div>
+                <h2><a href="https://rosmine.ai/2026/05/13/was-my-48k-gpu-worth-it/" target="_blank" rel="noopener noreferrer">Was my $48K GPU server worth it?</a></h2>
+                <div class="snippet">Comments</div>
             </article>
             
         </div>

@@ -1,6 +1,7 @@
 mod models;
 mod scraper;
 mod template_context;
+mod gcs;
 
 use reqwest::Client;
 use std::fs;
@@ -21,9 +22,25 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let config_data = fs::read_to_string("feeds.json")?;
     let config: models::AppConfig = serde_json::from_str(&config_data)?;
 
+    // GCS Config
+    let gcs_bucket = std::env::var("GCS_BUCKET").ok();
+    let gcs_client = if gcs_bucket.is_some() {
+        Some(gcs::get_client().await?)
+    } else {
+        None
+    };
+
     // Load publish history
     let history_path = "history.json";
-    let mut history: models::History = if let Ok(data) = fs::read_to_string(history_path) {
+    let mut history: models::History = if let (Some(bucket), Some(client)) = (&gcs_bucket, &gcs_client) {
+        gcs::download_history(client, bucket, "newspaper/history.json").await.unwrap_or_else(|_| {
+            if let Ok(data) = fs::read_to_string(history_path) {
+                serde_json::from_str(&data).unwrap_or_default()
+            } else {
+                models::History::default()
+            }
+        })
+    } else if let Ok(data) = fs::read_to_string(history_path) {
         serde_json::from_str(&data).unwrap_or_default()
     } else {
         models::History::default()
@@ -195,6 +212,12 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let history_data = serde_json::to_string_pretty(&history)?;
     fs::write(history_path, history_data)?;
+
+    // GCS Upload
+    if let (Some(bucket), Some(client)) = (gcs_bucket, gcs_client) {
+        gcs::upload_file(&client, &bucket, "index.html", "newspaper/today", "text/html").await?;
+        gcs::upload_file(&client, &bucket, history_path, "newspaper/history.json", "application/json").await?;
+    }
 
     Ok(())
 }
