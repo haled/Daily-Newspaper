@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Daily Paper - {{ date }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #f4f1ea;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 4px double #333;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            margin: 0;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+        }
+
+        .sub-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-top: 1px solid #333;
+            padding-top: 5px;
+            margin-top: 10px;
+        }
+
+        .section-header {
+            border-bottom: 2px solid #333;
+            margin-bottom: 20px;
+            margin-top: 40px;
+            padding-bottom: 5px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .newspaper-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1024px) {
+            .newspaper-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .newspaper-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        article {
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        article.span-2 { grid-column: span 2; }
+        article.span-3 { grid-column: span 3; }
+        article.span-4 { grid-column: span 4; }
+
+        article h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin: 0 0 10px 0;
+            line-height: 1.1;
+        }
+
+        article.weight-2 h2 { font-size: 1.8rem; }
+        article.weight-3 h2 { font-size: 2.2rem; }
+        article.weight-4 h2 { font-size: 2.8rem; }
+        article.weight-5 h2 { font-size: 3.2rem; }
+
+        article .source {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        article .snippet {
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        article a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        article a:hover {
+            text-decoration: underline;
+        }
+
+        /* Weather Box Styling */
+        .weather-box {
+            border: 2px solid #333;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            background: #fff;
+            grid-column: span 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: fit-content;
+        }
+        .weather-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .weather-location {
+            font-size: 0.75rem;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        .weather-today {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 5px 0;
+            font-family: 'Playfair Display', serif;
+        }
+        .weather-forecast {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #333;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+        .forecast-day {
+            text-align: center;
+            font-size: 0.75rem;
+        }
+        .forecast-label {
+            font-weight: bold;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+        }
+
+        /* Sports Scores Box Styling */
+        .scores-box {
+            border: 2px solid #333;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+            background: #fff;
+            grid-column: 4; /* Far right column */
+            grid-row: 1;    /* Top of the section */
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+        }
+        .scores-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .score-item {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 4px;
+        }
+        .score-item:last-child {
+            border-bottom: none;
+        }
+        .score-line {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+        .score-status {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        footer {
+            margin-top: 50px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Daily Paper</h1>
+            <div class="sub-header">
+                <span>{{ date }}</span>
+                <span>VOL. {{ volume }} ... NO. {{ issue_number }}</span>
+                <span>GLOBAL EDITION</span>
+            </div>
+        </header>
+
+        {% for section in sections %}
+        <div class="section-header">
+            <h2>{{ section.name }}</h2>
+        </div>
+        <div class="newspaper-grid">
+            {% if section.name == "News - Global" %}
+                {% if let Some(w) = weather %}
+                <div class="weather-box">
+                    <div class="weather-title">Weather Forecast</div>
+                    <div class="weather-location">{{ w.location_name }}</div>
+                    <div class="weather-today">
+                        {{ w.today_high }}° / {{ w.today_low }}°{{ w.units }}
+                    </div>
+                    <div class="weather-forecast">
+                        {% for f in w.forecast %}
+                        <div class="forecast-day">
+                            <span class="forecast-label">{{ f.day }}</span>
+                            {{ f.high }}°/{{ f.low }}°
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if let Some(s) = sports_scores %}
+                <div class="scores-box">
+                    <div class="scores-title">Last Night's Scores</div>
+                    {% for score in s.scores %}
+                    <div class="score-item">
+                        <div class="score-line">
+                            <span>{{ score.team_name }}</span>
+                            <span>{{ score.team_score }}</span>
+                        </div>
+                        <div class="score-line">
+                            <span>{{ score.opponent_name }}</span>
+                            <span>{{ score.opponent_score }}</span>
+                        </div>
+                        <div class="score-status">{{ score.status }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endif %}
+
+            {% for article in section.articles %}
+            <article class="span-{{ article.span }} weight-{{ article.weight }}">
+                <div class="source">{{ article.source }}</div>
+                <h2><a href="{{ article.link }}" target="_blank" rel="noopener noreferrer">{{ article.title }}</a></h2>
+                <div class="snippet">{{ article.snippet }}</div>
+            </article>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <footer>
+            Generated by Daily-Newspaper RSS Aggregator | Stay informed, stay offline.
+        </footer>
+    </div>
+</body>
+</html>
