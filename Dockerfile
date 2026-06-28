@@ -1,4 +1,4 @@
-FROM rust:1.80 as builder
+FROM rust:1.88 as builder
 WORKDIR /app
 RUN apt-get update && apt-get install -y pkg-config libssl-dev
 COPY . .
