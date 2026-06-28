@@ -1,4 +1,4 @@
-FROM rust:latest as builder
+FROM rust:bookworm as builder
 WORKDIR /app
 RUN apt-get update && apt-get install -y pkg-config libssl-dev
 COPY . .
