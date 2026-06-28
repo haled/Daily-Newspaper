@@ -31,7 +31,9 @@ pub async fn download_history(client: &Client, bucket: &str, object_path: &str) 
     }
 }
 
-pub async fn upload_file(client: &Client, bucket: &str, file_path: &str, object_name: &str, content_type: &str) -> Result<(), Box<dyn Error>> {
+use gcloud_storage::http::object_access_controls::PredefinedObjectAcl;
+
+pub async fn upload_file(client: &Client, bucket: &str, file_path: &str, object_name: &str, content_type: &str, make_public: bool) -> Result<(), Box<dyn Error>> {
     println!("Uploading {} to {}/{}...", file_path, bucket, object_name);
     let content = std::fs::read(file_path)?;
     
@@ -43,6 +45,7 @@ pub async fn upload_file(client: &Client, bucket: &str, file_path: &str, object_
 
     let request = UploadObjectRequest {
         bucket: bucket.to_string(),
+        predefined_acl: if make_public { Some(PredefinedObjectAcl::PublicRead) } else { None },
         ..Default::default()
     };
 
