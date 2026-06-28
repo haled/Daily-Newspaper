@@ -215,7 +215,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // GCS Upload
     if let (Some(bucket), Some(client)) = (gcs_bucket, gcs_client) {
-        gcs::upload_file(&client, &bucket, "index.html", "newspaper/today", "text/html").await?;
+        gcs::upload_file(&client, &bucket, "index.html", "newspaper/today/index.html", "text/html").await?;
         gcs::upload_file(&client, &bucket, history_path, "newspaper/history.json", "application/json").await?;
     }
 
