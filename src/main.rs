@@ -214,10 +214,16 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let history_data = serde_json::to_string_pretty(&history)?;
     fs::write(history_path, history_data)?;
 
-    // GCS Upload
+    // GCS Upload (non-fatal: Firebase Hosting is the primary publish target)
     if let (Some(bucket), Some(client)) = (gcs_bucket, gcs_client) {
-        gcs::upload_file(&client, &bucket, "index.html", "newspaper/today/index.html", "text/html", Some("public, max-age=15"), true).await?;
-        gcs::upload_file(&client, &bucket, history_path, "newspaper/history.json", "application/json", None, false).await?;
+        match gcs::upload_file(&client, &bucket, "index.html", "newspaper/today/index.html", "text/html", Some("public, max-age=15"), true).await {
+            Ok(()) => println!("Uploaded index.html to GCS bucket {}.", bucket),
+            Err(e) => eprintln!("Error uploading index.html to GCS: {}", e),
+        }
+        match gcs::upload_file(&client, &bucket, history_path, "newspaper/history.json", "application/json", None, false).await {
+            Ok(()) => println!("Uploaded history.json to GCS bucket {}.", bucket),
+            Err(e) => eprintln!("Error uploading history.json to GCS: {}", e),
+        }
     }
 
     // Firebase Hosting Publish
