@@ -49,6 +49,6 @@ jobs:
           gcloud run jobs deploy daily-newspaper-job \
             --image gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             --region ${{ env.REGION }} \
-            --set-env-vars GCS_BUCKET=${{ env.GCS_BUCKET }} \
+            --set-env-vars GCS_BUCKET=${{ env.GCS_BUCKET }},FIREBASE_SITE_ID=${{ env.PROJECT_ID }} \
             --service-account ${{ env.SERVICE_ACCOUNT }} \
             --execute-now # Optional: triggers a run immediately on deploy

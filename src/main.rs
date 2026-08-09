@@ -2,6 +2,7 @@ mod models;
 mod scraper;
 mod template_context;
 mod gcs;
+mod firebase;
 
 use reqwest::Client;
 use std::fs;
@@ -217,6 +218,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
     if let (Some(bucket), Some(client)) = (gcs_bucket, gcs_client) {
         gcs::upload_file(&client, &bucket, "index.html", "newspaper/today/index.html", "text/html", Some("public, max-age=15"), true).await?;
         gcs::upload_file(&client, &bucket, history_path, "newspaper/history.json", "application/json", None, false).await?;
+    }
+
+    // Firebase Hosting Publish
+    if let Some(site_id) = std::env::var("FIREBASE_SITE_ID").ok() {
+        match firebase::publish(html.as_bytes(), &site_id).await {
+            Ok(()) => println!("Published index.html to Firebase Hosting site {}.", site_id),
+            Err(e) => eprintln!("Error publishing to Firebase Hosting: {}", e),
+        }
     }
 
     Ok(())
