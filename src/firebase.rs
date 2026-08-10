@@ -28,15 +28,36 @@ struct ReleaseVersion {
 }
 
 #[derive(Deserialize)]
-struct CloneVersionResponse {
+struct OperationResponse {
     name: String,
+    #[serde(default)]
+    done: bool,
+    error: Option<OperationError>,
+    response: Option<OperationPayload>,
+}
+
+#[derive(Deserialize)]
+struct OperationError {
+    #[serde(default)]
+    code: i32,
+    message: String,
+}
+
+#[derive(Deserialize)]
+struct OperationPayload {
+    name: String,
+}
+
+#[derive(Serialize)]
+struct PathFilter<'a> {
+    regexes: Vec<&'a str>,
 }
 
 #[derive(Serialize)]
 struct CloneVersionRequest<'a> {
     #[serde(rename = "sourceVersion")]
     source_version: &'a str,
-    exclude: Vec<&'a str>,
+    exclude: PathFilter<'a>,
     #[serde(rename = "finalize")]
     finalize: bool,
 }
@@ -62,7 +83,7 @@ struct FinalizeVersionRequest<'a> {
 /// Publishes `index.html` to Firebase Hosting at `/newspaper/today/index.html`
 /// using the single-file "clone the live version" deploy algorithm.
 pub async fn publish(html: &[u8], site_id: &str) -> Result<(), Box<dyn Error>> {
-    println!("Publishing to Firebase Hosting site '{}' at {}", site_id, TARGET_PATH);
+    println!("Publishing to Firebase Hosting site '{site_id}' at {TARGET_PATH}");
 
     let token = bearer_token().await?;
     let client = Client::builder()
@@ -70,19 +91,19 @@ pub async fn publish(html: &[u8], site_id: &str) -> Result<(), Box<dyn Error>> {
         .build()?;
 
     // 1. Get the current live version
-    let live_url = format!("{}/sites/{}/channels/live/releases?pageSize=1", API_BASE, site_id);
+    let live_url = format!("{API_BASE}/sites/{site_id}/channels/live/releases?pageSize=1");
     let response = retry_request(|| client.get(&live_url).bearer_auth(&token)).await?;
     let releases: ReleasesResponse = response.json().await?;
     let src_version = releases.releases.first()
         .map(|r| r.version.name.clone())
         .ok_or("No live release found for the site; nothing to clone")?;
-    println!("  Live version: {}", src_version);
+    println!("  Live version: {src_version}");
 
     // 2. Clone the live version, excluding the file being replaced
-    let clone_url = format!("{}/sites/{}/versions:clone", API_BASE, site_id);
+    let clone_url = format!("{API_BASE}/sites/{site_id}/versions:clone");
     let clone_request = CloneVersionRequest {
         source_version: &src_version,
-        exclude: vec![TARGET_PATH],
+        exclude: PathFilter { regexes: vec![TARGET_PATH] },
         finalize: false,
     };
     let response = retry_request(|| {
@@ -90,17 +111,33 @@ pub async fn publish(html: &[u8], site_id: &str) -> Result<(), Box<dyn Error>> {
             .bearer_auth(&token)
             .json(&clone_request)
     }).await?;
-    let clone: CloneVersionResponse = response.json().await?;
-    let new_version = clone.name;
-    println!("  Cloned version: {}", new_version);
+    let mut operation: OperationResponse = response.json().await?;
+
+    // Poll the long-running clone operation until it completes
+    loop {
+        if operation.done {
+            break;
+        }
+        tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+        let operation_url = format!("{API_BASE}/{0}", operation.name);
+        let response = retry_request(|| client.get(&operation_url).bearer_auth(&token)).await?;
+        operation = response.json().await?;
+    }
+    if let Some(error) = &operation.error {
+        return Err(format!("Cloning version failed ({}): {}", error.code, error.message).into());
+    }
+    let new_version = operation.response
+        .ok_or("Clone operation completed without a version")?
+        .name;
+    println!("  Cloned version: {new_version}");
 
     // 3. Deterministically gzip the bytes and hash them
     let gzipped = gzip_deterministic(html)?;
     let hash = sha256_hex(&gzipped);
-    println!("  Content hash: {}", hash);
+    println!("  Content hash: {hash}");
 
     // 4. Populate files
-    let populate_url = format!("{}/sites/{}/versions/{}:populateFiles", API_BASE, site_id, new_version);
+    let populate_url = format!("{API_BASE}/{new_version}:populateFiles");
     let mut files = HashMap::new();
     files.insert(TARGET_PATH, hash.as_str());
     let populate_request = PopulateFilesRequest { files };
@@ -126,12 +163,12 @@ pub async fn publish(html: &[u8], site_id: &str) -> Result<(), Box<dyn Error>> {
             if !response.status().is_success() {
                 return Err(format!("Upload of hash {} failed with status {}", required_hash, response.status()).into());
             }
-            println!("  Uploaded hash {}", required_hash);
+            println!("  Uploaded hash {required_hash}");
         }
     }
 
     // 6. Finalize the version
-    let finalize_url = format!("{}/sites/{}/versions/{}?update_mask=status", API_BASE, site_id, new_version);
+    let finalize_url = format!("{API_BASE}/{new_version}?update_mask=status");
     let finalize_request = FinalizeVersionRequest { status: "FINALIZED" };
     let response = retry_request(|| {
         client.patch(&finalize_url)
@@ -144,16 +181,17 @@ pub async fn publish(html: &[u8], site_id: &str) -> Result<(), Box<dyn Error>> {
     println!("  Version finalized.");
 
     // 7. Release it (go live)
-    let version_name = format!("sites/{}/versions/{}", site_id, new_version);
-    let release_url = format!("{}/sites/{}/releases?versionName={}", API_BASE, site_id, version_name);
+    let release_url = format!("{API_BASE}/sites/{site_id}/releases?versionName={new_version}");
     let response = retry_request(|| {
-        client.post(&release_url).bearer_auth(&token)
+        client.post(&release_url)
+            .bearer_auth(&token)
+            .body("")
     }).await?;
     if !response.status().is_success() {
         return Err(format!("Creating release failed with status {}", response.status()).into());
     }
 
-    println!("  Released version {} to live channel.", new_version);
+    println!("  Released version {new_version} to live channel.");
     Ok(())
 }
 
@@ -198,12 +236,11 @@ async fn retry_request(
         let body = response.text().await.unwrap_or_default();
         if attempts >= MAX_ATTEMPTS {
             return Err(format!(
-                "Firebase Hosting API request failed after {} attempts ({}): {}",
-                attempts, status, body
+                "Firebase Hosting API request failed after {attempts} attempts ({status}): {body}"
             ).into());
         }
         let delay_secs = 2u64.pow(attempts - 1);
-        eprintln!("  Transient error ({}), retrying in {}s...", status, delay_secs);
+        eprintln!("  Transient error ({status}), retrying in {delay_secs}s...");
         tokio::time::sleep(std::time::Duration::from_secs(delay_secs)).await;
     }
 }
