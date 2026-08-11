@@ -12,6 +12,7 @@
 - **Dynamic Section Layout:** 4-column CSS Grid with configurable section ordering.
 - **Visual Weighting:** Major stories (covered by multiple sources) are given larger fonts and span 2 columns.
 - **Dynamic Header:** Automatically calculates Volume (last 2 digits of year) and Issue Number (day of year).
+- **Scheduled Delivery:** Runs daily at 5:00 AM CT as a Cloud Run Job and publishes the edition to Firebase Hosting.
 
 ### Core Technologies
 - **Language:** Rust (Edition 2024)
@@ -38,13 +39,22 @@
 
 ### Directory Structure
 - `src/`: Rust source files.
-  - `main.rs`: Orchestrates fetching, headline clustering, persistence logic, and layout processing.
+  - `main.rs`: Orchestrates fetching, headline clustering, persistence logic, layout processing, and publishing.
   - `models.rs`: Defines config, article, and history structures.
   - `scraper.rs`: Handles RSS normalization, `weather.gov` geocoding/forecasts, and ESPN score fetching.
   - `template_context.rs`: Defines the data structures passed to the HTML template.
+  - `gcs.rs`: Legacy best-effort upload of `index.html`/`history.json` to GCS.
+  - `firebase.rs`: Publishes the generated `index.html` to Firebase Hosting (single-file clone-based deploy).
 - `templates/`: HTML templates for rendering.
 - `feeds.json`: Main configuration for weather, teams, and RSS sources.
 - `history.json`: (Local only) Tracks published article links to avoid repeats.
+
+### Deployment
+- Runs as a **Google Cloud Run Job** (`daily-newspaper-job`, us-central1) triggered by
+  **Cloud Scheduler** (`daily-newspaper-schedule`, cron `0 5 * * *` America/Chicago).
+- Publishes `/newspaper/today/index.html` to Firebase Hosting (see
+  `NEWSPAPER_TODAY_PUBLISHER.md`); served at
+  `https://valiant-azimuth-296116.web.app/newspaper/today/`.
 
 ### Development Guidelines
 - **Headline Similarity:** Uses a word-overlap algorithm (40% match of words > 3 chars) to cluster stories.

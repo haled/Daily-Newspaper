@@ -44,14 +44,28 @@ A Rust-based application that aggregates news from multiple RSS feeds and genera
 To ensure the news is ready for your breakfast on a 9-inch tablet:
 
 ### A. Execution Environment
-- **Google Cloud Run:** We will package the Rust application into a container. Cloud Run is ideal for this kind of "on-demand" job.
-- **Cloud Scheduler:** Set a cron job in GCP to trigger the Cloud Run service daily at **5:30 AM**. This will ensure the generation process is completed well before 6:00 AM.
+- **Google Cloud Run Jobs:** The Rust application is packaged into a container and runs
+  as the Cloud Run Job `daily-newspaper-job` (region `us-central1`).
+- **Cloud Scheduler:** The cron job `daily-newspaper-schedule` triggers the job daily at
+  **5:00 AM** (America/Chicago). This ensures the generation process is completed well
+  before breakfast.
+- **Continuous delivery:** Pushing to `main` re-deploys the job via GitHub Actions
+  (`.github/workflows/deploy.yml`), which also fires one immediate execution.
 
 ### B. Self-Contained HTML Delivery
-- **Inline Assets:** The Rust app will generate a single, self-contained HTML file with all CSS inlined. This makes it easy to download and read offline.
-- **Storage:** The generated file will be uploaded to a **Google Cloud Storage (GCS)** bucket.
-- **Access:** The bucket can be configured for static website hosting or provide a signed URL. You can bookmark this link on your tablet.
-- **Offline Viewing:** Since the HTML is self-contained, you can "Save for Offline" in your tablet's browser or the app can be configured as a basic PWA to cache the latest edition automatically.
+- **Inline Assets:** The Rust app generates a single, self-contained HTML file with all
+  CSS inlined. This makes it easy to download and read offline.
+- **Primary host — Firebase Hosting:** The generated file is published to
+  `/newspaper/today/index.html` via the Hosting REST API (clone the live version,
+  upload the new file, finalize, release) — see `NEWSPAPER_TODAY_PUBLISHER.md`. It is
+  served at `https://valiant-azimuth-296116.web.app/newspaper/today/` (and
+  `https://www.darrenehale.com/newspaper/today/`), which you can bookmark on your
+  tablet.
+- **Legacy GCS upload:** Uploads to the GCS bucket are retained but best-effort; the
+  original bucket no longer exists, so failures are logged and the run continues.
+- **Offline Viewing:** Since the HTML is self-contained, you can "Save for Offline" in
+  your tablet's browser or the app can be configured as a basic PWA to cache the latest
+  edition automatically.
 
 ## 4. Implementation Plan
 
@@ -62,8 +76,10 @@ To ensure the news is ready for your breakfast on a 9-inch tablet:
 
 ### Phase 2: GCP Integration
 - Create a `Dockerfile` for the Rust application.
-- Implement the GCS upload logic using the `google-cloud-storage` crate.
-- Set up the Cloud Run service and Cloud Scheduler trigger.
+- Implement Firebase Hosting publishing (`src/firebase.rs`) using the clone-based
+  single-file deploy (steps documented in `NEWSPAPER_TODAY_PUBLISHER.md`).
+- Implement the legacy GCS upload logic (`src/gcs.rs`, best-effort).
+- Set up the Cloud Run Job and Cloud Scheduler trigger (5:00 AM).
 
 ### Phase 3: Layout & Typography Refinement
 - Finalize the newspaper-style CSS with a multi-column grid and traditional serif fonts.

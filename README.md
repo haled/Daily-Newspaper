@@ -38,6 +38,22 @@ I miss my daily newspaper too! This project recreates that experience by fetchin
 3.  **View the newspaper:**
     Open `index.html` in your web browser.
 
+## Deployment
+
+The app runs as a scheduled **Google Cloud Run Job** (`daily-newspaper-job`,
+region `us-central1`) triggered every day at 5:00 AM CT by **Cloud Scheduler**
+(`daily-newspaper-schedule`). Each run regenerates `index.html` and publishes it to
+**Firebase Hosting** at `/newspaper/today/index.html` (see
+[`NEWSPAPER_TODAY_PUBLISHER.md`](NEWSPAPER_TODAY_PUBLISHER.md) for the publish
+algorithm).
+
+- **Served at:** <https://valiant-azimuth-296116.web.app/newspaper/today/> (and
+  <https://www.darrenehale.com/newspaper/today/>).
+- **Env vars:** the job reads `GCS_BUCKET` (legacy GCS upload, best-effort) and
+  `FIREBASE_SITE_ID` (enables the Firebase Hosting publish).
+- **Deploys:** pushing to `main` re-deploys the job via
+  `.github/workflows/deploy.yml` and fires one immediate execution.
+
 ## Configuration
 
 All settings are managed in `feeds.json`. You can configure your location for weather, your favorite sports teams, and the order of your sections:
