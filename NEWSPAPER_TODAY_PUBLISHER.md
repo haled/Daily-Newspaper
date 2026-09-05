@@ -40,14 +40,19 @@ header (that is only needed for user OAuth credentials, not service accounts).
 - **Schedule:** Cloud Scheduler job `daily-newspaper-schedule` (region `us-central1`),
   cron `0 5 * * *`, timezone `America/Chicago`, HTTP target
   `https://us-central1-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/valiant-azimuth-296116/jobs/daily-newspaper-job:run`.
-- **Env vars on the job:** `GCS_BUCKET=valiant-azimuth-296116.appspot.com` and
+- **Env vars on the job:** `GCS_BUCKET=valiant-azimuth-296116-newspaper` and
   `FIREBASE_SITE_ID=valiant-azimuth-296116`. The Firebase publish runs whenever
   `FIREBASE_SITE_ID` is set.
 - **Runtime service account:**
   `deploymentactionaccount@valiant-azimuth-296116.iam.gserviceaccount.com`, granted
-  `roles/firebasehosting.admin` and `roles/iam.serviceAccountUser`.
-- **GCS upload is best-effort:** the legacy bucket no longer exists, so upload
-  failures are logged and the run continues to the Firebase publish.
+  `roles/firebasehosting.admin`, `roles/iam.serviceAccountUser`, and
+  `roles/storage.objectAdmin` on the `valiant-azimuth-296116-newspaper` bucket.
+- **GCS is the durable history store:** `history.json` is downloaded from and re-uploaded
+  to `gs://valiant-azimuth-296116-newspaper/newspaper/history.json` on every run, so the
+  headline-dedup log survives between executions (see `gcs.rs`). If the download fails
+  (e.g. object missing on first run), the app falls back to the local `history.json` and
+  starts with an empty log. The `index.html` GCS upload is best-effort; a failure is
+  logged and the run continues to the Firebase publish.
 
 ## Deploy algorithm (single-file "replace one file")
 

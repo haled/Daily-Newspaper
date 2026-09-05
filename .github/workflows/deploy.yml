@@ -10,7 +10,7 @@ env:
   PROJECT_ID: valiant-azimuth-296116
   REGION: us-central1
   SERVICE_ACCOUNT: deploymentactionaccount@valiant-azimuth-296116.iam.gserviceaccount.com
-  GCS_BUCKET: valiant-azimuth-296116.appspot.com
+  GCS_BUCKET: valiant-azimuth-296116-newspaper
   IMAGE_NAME: daily-newspaper
 
 jobs:

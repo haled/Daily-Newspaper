@@ -49,8 +49,8 @@ algorithm).
 
 - **Served at:** <https://valiant-azimuth-296116.web.app/newspaper/today/> (and
   <https://www.darrenehale.com/newspaper/today/>).
-- **Env vars:** the job reads `GCS_BUCKET` (legacy GCS upload, best-effort) and
-  `FIREBASE_SITE_ID` (enables the Firebase Hosting publish).
+- **Env vars:** the job reads `GCS_BUCKET` (durable `history.json` store + legacy GCS
+  upload) and `FIREBASE_SITE_ID` (enables the Firebase Hosting publish).
 - **Deploys:** pushing to `main` re-deploys the job via
   `.github/workflows/deploy.yml` and fires one immediate execution.
 

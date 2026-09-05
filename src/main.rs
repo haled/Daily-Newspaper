@@ -31,20 +31,18 @@ async fn main() -> Result<(), Box<dyn Error>> {
         None
     };
 
-    // Load publish history
+    // Load publish history (GCS is the durable store; fall back to local file)
     let history_path = "history.json";
     let mut history: models::History = if let (Some(bucket), Some(client)) = (&gcs_bucket, &gcs_client) {
-        gcs::download_history(client, bucket, "newspaper/history.json").await.unwrap_or_else(|_| {
-            if let Ok(data) = fs::read_to_string(history_path) {
-                serde_json::from_str(&data).unwrap_or_default()
-            } else {
-                models::History::default()
+        match gcs::download_history(client, bucket, "newspaper/history.json").await {
+            Ok(h) => h,
+            Err(e) => {
+                eprintln!("Error loading history from GCS: {}", e);
+                load_local_history(history_path)
             }
-        })
-    } else if let Ok(data) = fs::read_to_string(history_path) {
-        serde_json::from_str(&data).unwrap_or_default()
+        }
     } else {
-        models::History::default()
+        load_local_history(history_path)
     };
 
     let today_str = Local::now().format("%Y-%m-%d").to_string();
@@ -235,6 +233,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     Ok(())
+}
+
+fn load_local_history(history_path: &str) -> models::History {
+    if let Ok(data) = fs::read_to_string(history_path) {
+        serde_json::from_str(&data).unwrap_or_default()
+    } else {
+        models::History::default()
+    }
 }
 
 fn process_articles(articles: &mut Vec<Article>, is_global: bool) {

@@ -18,17 +18,10 @@ pub async fn download_history(client: &Client, bucket: &str, object_path: &str) 
         ..Default::default()
     };
 
-    match client.download_object(&request, &Range::default()).await {
-        Ok(bytes) => {
-            let history: History = serde_json::from_slice(&bytes)?;
-            println!("  History loaded from GCS.");
-            Ok(history)
-        }
-        Err(e) => {
-            println!("  No history found in GCS (or error: {}). Using default.", e);
-            Ok(History::default())
-        }
-    }
+    let bytes = client.download_object(&request, &Range::default()).await?;
+    let history: History = serde_json::from_slice(&bytes)?;
+    println!("  History loaded from GCS.");
+    Ok(history)
 }
 
 use gcloud_storage::http::object_access_controls::PredefinedObjectAcl;
