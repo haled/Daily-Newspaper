@@ -109,8 +109,15 @@
             font-size: 0.8rem;
             font-weight: bold;
             color: #666;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             text-transform: uppercase;
+        }
+
+        article .date {
+            font-size: 0.7rem;
+            color: #999;
+            margin-bottom: 5px;
+            font-style: italic;
         }
 
         article .snippet {
@@ -291,6 +298,7 @@
             <article class="span-{{ article.span }} weight-{{ article.weight }}">
                 <div class="source">{{ article.source }}</div>
                 <h2><a href="{{ article.link }}" target="_blank" rel="noopener noreferrer">{{ article.title }}</a></h2>
+                <div class="date">{{ article.pub_date }}</div>
                 <div class="snippet">{{ article.snippet }}</div>
             </article>
             {% endfor %}

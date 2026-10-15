@@ -1,11 +1,16 @@
 use crate::models::Article;
 use crate::template_context::{WeatherData, DailyForecast, SportsScore};
+use chrono::{Duration, Utc};
 use feed_rs::parser;
 use reqwest::Client;
 use std::error::Error;
 use html_escape::decode_html_entities;
 use serde::Deserialize;
 use std::collections::BTreeMap;
+
+/// Maximum age of a headline to include, in hours. Anything older is dropped so
+/// that feeds with long archives (e.g. NYT, BBC) don't surface stale stories.
+const MAX_HEADLINE_AGE_HOURS: i64 = 48;
 
 #[derive(Deserialize, Debug)]
 struct NwsPointsResponse {
@@ -241,8 +246,21 @@ fn f_to_c(f: i32) -> i32 {
 pub async fn fetch_feed(client: &Client, url: &str, source_name: &str) -> Result<Vec<Article>, Box<dyn Error>> {
     let response = client.get(url).send().await?.bytes().await?;
     let feed = parser::parse(&response[..])?;
-    
-    let articles = feed.entries.into_iter().map(|entry| {
+    let now = Utc::now();
+
+    let articles = feed.entries.into_iter().filter_map(|entry| {
+        // Prefer the published date, falling back to the last-updated date
+        // (many Atom feeds, e.g. The Verge, only populate `updated`).
+        let timestamp = entry.published.or(entry.updated);
+
+        // Drop stale entries. Entries without any date are kept, since we
+        // cannot determine their age.
+        if let Some(ts) = timestamp
+            && now.signed_duration_since(ts) > Duration::hours(MAX_HEADLINE_AGE_HOURS)
+        {
+            return None;
+        }
+
         let title = entry.title.map(|t| t.content).unwrap_or_else(|| "No Title".to_string());
         let link = entry.links.first().map(|l| l.href.clone()).unwrap_or_default();
         
@@ -261,11 +279,11 @@ pub async fn fetch_feed(client: &Client, url: &str, source_name: &str) -> Result
             snippet
         };
 
-        let pub_date = entry.published
+        let pub_date = timestamp
             .map(|d| d.format("%B %e, %Y").to_string())
             .unwrap_or_else(|| "Unknown Date".to_string());
 
-        Article {
+        Some(Article {
             title: decode_html_entities(&title).to_string(),
             link,
             snippet,
@@ -273,8 +291,9 @@ pub async fn fetch_feed(client: &Client, url: &str, source_name: &str) -> Result
             source: source_name.to_string(),
             weight: 1,
             span: 1,
-        }
-    }).collect();
+        })
+    })
+    .collect();
 
     Ok(articles)
 }
